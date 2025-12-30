@@ -9,7 +9,7 @@ const systemConfigsApi = SystemConfigurationsApiFactory(apiConfiguration, undefi
 export const systemConfigurationsService = {
   list: () => systemConfigsApi.systemConfigurationsList(),
   create: (config: Partial<SystemConfiguration>) =>
-    systemConfigsApi.systemConfigurationsCreate({ ...(config as any) }),
+    systemConfigsApi.systemConfigurationsCreate({ systemConfiguration: config as any }),
   update: (id: number, payload: PatchedSystemConfiguration) =>
     systemConfigsApi.systemConfigurationsPartialUpdate({ id, patchedSystemConfiguration: payload as any }),
 }

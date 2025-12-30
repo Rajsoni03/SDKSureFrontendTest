@@ -23,7 +23,7 @@ import type { TestRunStatusEnum } from './test-run-status-enum';
 export interface PatchedTestRun {
     'id'?: number;
     'test_case'?: number;
-    'board'?: number;
+    'board'?: string;
     'initiated_by'?: number | null;
     'status'?: TestRunStatusEnum;
     'started_at'?: string | null;

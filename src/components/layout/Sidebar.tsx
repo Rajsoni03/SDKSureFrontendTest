@@ -4,8 +4,10 @@ import {
   Cpu,
   Home,
   Layers,
+  RadioTower,
   Settings,
   Users,
+  MonitorSmartphone,
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
@@ -19,6 +21,9 @@ const navItems = [
   { label: 'Users', icon: Users, href: '/users' },
   { label: 'Configs', icon: Settings, href: '/configs' },
   { label: 'Tags', icon: BarChart2, href: '/tags' },
+  { label: 'Capabilities', icon: Activity, href: '/capabilities' },
+  { label: 'Relays', icon: RadioTower, href: '/relays' },
+  { label: 'Test PCs', icon: MonitorSmartphone, href: '/test-pcs' },
   { label: 'Analytics', icon: BarChart2, href: '/analytics' },
 ]
 

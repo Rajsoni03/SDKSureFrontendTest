@@ -80,7 +80,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let id: number; //A unique integer value identifying this board. (default to undefined)
+let id: string; //A UUID string identifying this Board. (default to undefined)
 
 const { status, data } = await apiInstance.boardsDestroy(
     id
@@ -91,7 +91,7 @@ const { status, data } = await apiInstance.boardsDestroy(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] | A unique integer value identifying this board. | defaults to undefined|
+| **id** | [**string**] | A UUID string identifying this Board. | defaults to undefined|
 
 
 ### Return type
@@ -131,20 +131,34 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let baudRate: 115200 | 19200 | 38400 | 57600 | 9600; //* `9600` - 9600 * `19200` - 19200 * `38400` - 38400 * `57600` - 57600 * `115200` - 115200 (optional) (default to undefined)
+let capabilities: Array<string>; //Unique identifier (optional) (default to undefined)
+let isAlive: boolean; // (optional) (default to undefined)
+let isLocked: boolean; // (optional) (default to undefined)
 let name: string; // (optional) (default to undefined)
 let ordering: string; //Which field to use when ordering the results. (optional) (default to undefined)
 let page: number; //A page number within the paginated result set. (optional) (default to undefined)
+let platform: string; // (optional) (default to undefined)
+let project: string; // (optional) (default to undefined)
+let relayId: string; // (optional) (default to undefined)
 let search: string; //A search term. (optional) (default to undefined)
 let status: string; // (optional) (default to undefined)
+let testFarm: string; // (optional) (default to undefined)
+let testPcId: string; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.boardsList(
-    baudRate,
+    capabilities,
+    isAlive,
+    isLocked,
     name,
     ordering,
     page,
+    platform,
+    project,
+    relayId,
     search,
-    status
+    status,
+    testFarm,
+    testPcId
 );
 ```
 
@@ -152,12 +166,19 @@ const { status, data } = await apiInstance.boardsList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **baudRate** | [**115200 | 19200 | 38400 | 57600 | 9600**]**Array<115200 &#124; 19200 &#124; 38400 &#124; 57600 &#124; 9600>** | * &#x60;9600&#x60; - 9600 * &#x60;19200&#x60; - 19200 * &#x60;38400&#x60; - 38400 * &#x60;57600&#x60; - 57600 * &#x60;115200&#x60; - 115200 | (optional) defaults to undefined|
+| **capabilities** | **Array&lt;string&gt;** | Unique identifier | (optional) defaults to undefined|
+| **isAlive** | [**boolean**] |  | (optional) defaults to undefined|
+| **isLocked** | [**boolean**] |  | (optional) defaults to undefined|
 | **name** | [**string**] |  | (optional) defaults to undefined|
 | **ordering** | [**string**] | Which field to use when ordering the results. | (optional) defaults to undefined|
 | **page** | [**number**] | A page number within the paginated result set. | (optional) defaults to undefined|
+| **platform** | [**string**] |  | (optional) defaults to undefined|
+| **project** | [**string**] |  | (optional) defaults to undefined|
+| **relayId** | [**string**] |  | (optional) defaults to undefined|
 | **search** | [**string**] | A search term. | (optional) defaults to undefined|
 | **status** | [**string**] |  | (optional) defaults to undefined|
+| **testFarm** | [**string**] |  | (optional) defaults to undefined|
+| **testPcId** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type
@@ -197,7 +218,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let id: number; //A unique integer value identifying this board. (default to undefined)
+let id: string; //A UUID string identifying this Board. (default to undefined)
 
 const { status, data } = await apiInstance.boardsLogsRetrieve(
     id
@@ -208,7 +229,7 @@ const { status, data } = await apiInstance.boardsLogsRetrieve(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] | A unique integer value identifying this board. | defaults to undefined|
+| **id** | [**string**] | A UUID string identifying this Board. | defaults to undefined|
 
 
 ### Return type
@@ -249,7 +270,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let id: number; //A unique integer value identifying this board. (default to undefined)
+let id: string; //A UUID string identifying this Board. (default to undefined)
 let patchedBoard: PatchedBoard; // (optional)
 
 const { status, data } = await apiInstance.boardsPartialUpdate(
@@ -263,7 +284,7 @@ const { status, data } = await apiInstance.boardsPartialUpdate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **patchedBoard** | **PatchedBoard**|  | |
-| **id** | [**number**] | A unique integer value identifying this board. | defaults to undefined|
+| **id** | [**string**] | A UUID string identifying this Board. | defaults to undefined|
 
 
 ### Return type
@@ -303,7 +324,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let id: number; //A unique integer value identifying this board. (default to undefined)
+let id: string; //A UUID string identifying this Board. (default to undefined)
 
 const { status, data } = await apiInstance.boardsRetrieve(
     id
@@ -314,7 +335,7 @@ const { status, data } = await apiInstance.boardsRetrieve(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] | A unique integer value identifying this board. | defaults to undefined|
+| **id** | [**string**] | A UUID string identifying this Board. | defaults to undefined|
 
 
 ### Return type
@@ -355,7 +376,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BoardsApi(configuration);
 
-let id: number; //A unique integer value identifying this board. (default to undefined)
+let id: string; //A UUID string identifying this Board. (default to undefined)
 let board: Board; //
 
 const { status, data } = await apiInstance.boardsUpdate(
@@ -369,7 +390,7 @@ const { status, data } = await apiInstance.boardsUpdate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **board** | **Board**|  | |
-| **id** | [**number**] | A unique integer value identifying this board. | defaults to undefined|
+| **id** | [**string**] | A UUID string identifying this Board. | defaults to undefined|
 
 
 ### Return type

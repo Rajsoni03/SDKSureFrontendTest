@@ -15,13 +15,15 @@
 
 
 /**
- * * `CONNECTED` - Connected * `DISCONNECTED` - Disconnected * `OFFLINE` - Offline * `ERROR` - Error
+ * * `IDLE` - Idle * `BUSY` - Busy * `UPDATING_SDK` - Updating SDK * `OFFLINE` - Offline * `DEACTIVATED` - Deactivated * `ERROR` - Error
  */
 
 export const BoardStatusEnum = {
-    CONNECTED: 'CONNECTED',
-    DISCONNECTED: 'DISCONNECTED',
+    IDLE: 'IDLE',
+    BUSY: 'BUSY',
+    UPDATING_SDK: 'UPDATING_SDK',
     OFFLINE: 'OFFLINE',
+    DEACTIVATED: 'DEACTIVATED',
     ERROR: 'ERROR'
 } as const;
 

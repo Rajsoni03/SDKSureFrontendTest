@@ -9,6 +9,6 @@ const tagsApi = TagsApiFactory(apiConfiguration, undefined, apiClient)
 export const tagsService = {
   list: (params?: { search?: string; ordering?: string; page?: number }) =>
     tagsApi.tagsList(params ?? {}),
-  create: (tag: Partial<Tag>) => tagsApi.tagsCreate({ ...(tag as any) }),
+  create: (tag: Partial<Tag>) => tagsApi.tagsCreate({ tag: tag as any }),
   update: (id: number, payload: PatchedTag) => tagsApi.tagsPartialUpdate({ id, patchedTag: payload as any }),
 }

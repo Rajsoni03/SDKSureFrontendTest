@@ -16,11 +16,15 @@
 
 export * from './apis/authentication-api';
 export * from './apis/boards-api';
+export * from './apis/capabilities-api';
 export * from './apis/dashboard-metrics-api';
+export * from './apis/pc-stats-api';
+export * from './apis/relays-api';
 export * from './apis/schema-api';
 export * from './apis/system-configurations-api';
 export * from './apis/tags-api';
 export * from './apis/test-cases-api';
+export * from './apis/test-pcs-api';
 export * from './apis/test-runs-api';
 export * from './apis/test-types-api';
 

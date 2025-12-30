@@ -74,11 +74,11 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsDestroy: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('boardsDestroy', 'id', id)
             const localVarPath = `/api/v1/boards/{id}/`
@@ -112,16 +112,23 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {BoardsListBaudRateEnum} [baudRate] * &#x60;9600&#x60; - 9600 * &#x60;19200&#x60; - 19200 * &#x60;38400&#x60; - 38400 * &#x60;57600&#x60; - 57600 * &#x60;115200&#x60; - 115200
+         * @param {Array<string>} [capabilities] Unique identifier
+         * @param {boolean} [isAlive] 
+         * @param {boolean} [isLocked] 
          * @param {string} [name] 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
+         * @param {string} [platform] 
+         * @param {string} [project] 
+         * @param {string} [relayId] 
          * @param {string} [search] A search term.
          * @param {string} [status] 
+         * @param {string} [testFarm] 
+         * @param {string} [testPcId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsList: async (baudRate?: BoardsListBaudRateEnum, name?: string, ordering?: string, page?: number, search?: string, status?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsList: async (capabilities?: Array<string>, isAlive?: boolean, isLocked?: boolean, name?: string, ordering?: string, page?: number, platform?: string, project?: string, relayId?: string, search?: string, status?: string, testFarm?: string, testPcId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/boards/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -140,8 +147,16 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (baudRate !== undefined) {
-                localVarQueryParameter['baud_rate'] = baudRate;
+            if (capabilities) {
+                localVarQueryParameter['capabilities'] = capabilities;
+            }
+
+            if (isAlive !== undefined) {
+                localVarQueryParameter['is_alive'] = isAlive;
+            }
+
+            if (isLocked !== undefined) {
+                localVarQueryParameter['is_locked'] = isLocked;
             }
 
             if (name !== undefined) {
@@ -156,12 +171,32 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['page'] = page;
             }
 
+            if (platform !== undefined) {
+                localVarQueryParameter['platform'] = platform;
+            }
+
+            if (project !== undefined) {
+                localVarQueryParameter['project'] = project;
+            }
+
+            if (relayId !== undefined) {
+                localVarQueryParameter['relay_id'] = relayId;
+            }
+
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
             }
 
             if (status !== undefined) {
                 localVarQueryParameter['status'] = status;
+            }
+
+            if (testFarm !== undefined) {
+                localVarQueryParameter['test_farm'] = testFarm;
+            }
+
+            if (testPcId !== undefined) {
+                localVarQueryParameter['test_pc_id'] = testPcId;
             }
 
             localVarHeaderParameter['Accept'] = 'application/json';
@@ -177,11 +212,11 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsLogsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsLogsRetrieve: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('boardsLogsRetrieve', 'id', id)
             const localVarPath = `/api/v1/boards/{id}/logs/`
@@ -216,12 +251,12 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {PatchedBoard} [patchedBoard] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsPartialUpdate: async (id: number, patchedBoard?: PatchedBoard, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsPartialUpdate: async (id: string, patchedBoard?: PatchedBoard, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('boardsPartialUpdate', 'id', id)
             const localVarPath = `/api/v1/boards/{id}/`
@@ -258,11 +293,11 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsRetrieve: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('boardsRetrieve', 'id', id)
             const localVarPath = `/api/v1/boards/{id}/`
@@ -297,12 +332,12 @@ export const BoardsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {Board} board 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        boardsUpdate: async (id: number, board: Board, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        boardsUpdate: async (id: string, board: Board, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('boardsUpdate', 'id', id)
             // verify required parameter 'board' is not null or undefined
@@ -362,11 +397,11 @@ export const BoardsApiFp = function(configuration?: Configuration) {
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async boardsDestroy(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.boardsDestroy(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsDestroy']?.[localVarOperationServerIndex]?.url;
@@ -374,28 +409,35 @@ export const BoardsApiFp = function(configuration?: Configuration) {
         },
         /**
          * CRUD operations for boards.
-         * @param {BoardsListBaudRateEnum} [baudRate] * &#x60;9600&#x60; - 9600 * &#x60;19200&#x60; - 19200 * &#x60;38400&#x60; - 38400 * &#x60;57600&#x60; - 57600 * &#x60;115200&#x60; - 115200
+         * @param {Array<string>} [capabilities] Unique identifier
+         * @param {boolean} [isAlive] 
+         * @param {boolean} [isLocked] 
          * @param {string} [name] 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
+         * @param {string} [platform] 
+         * @param {string} [project] 
+         * @param {string} [relayId] 
          * @param {string} [search] A search term.
          * @param {string} [status] 
+         * @param {string} [testFarm] 
+         * @param {string} [testPcId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsList(baudRate?: BoardsListBaudRateEnum, name?: string, ordering?: string, page?: number, search?: string, status?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedBoardList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.boardsList(baudRate, name, ordering, page, search, status, options);
+        async boardsList(capabilities?: Array<string>, isAlive?: boolean, isLocked?: boolean, name?: string, ordering?: string, page?: number, platform?: string, project?: string, relayId?: string, search?: string, status?: string, testFarm?: string, testPcId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedBoardList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.boardsList(capabilities, isAlive, isLocked, name, ordering, page, platform, project, relayId, search, status, testFarm, testPcId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsLogsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
+        async boardsLogsRetrieve(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.boardsLogsRetrieve(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsLogsRetrieve']?.[localVarOperationServerIndex]?.url;
@@ -403,12 +445,12 @@ export const BoardsApiFp = function(configuration?: Configuration) {
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {PatchedBoard} [patchedBoard] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsPartialUpdate(id: number, patchedBoard?: PatchedBoard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
+        async boardsPartialUpdate(id: string, patchedBoard?: PatchedBoard, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.boardsPartialUpdate(id, patchedBoard, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsPartialUpdate']?.[localVarOperationServerIndex]?.url;
@@ -416,11 +458,11 @@ export const BoardsApiFp = function(configuration?: Configuration) {
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
+        async boardsRetrieve(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.boardsRetrieve(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsRetrieve']?.[localVarOperationServerIndex]?.url;
@@ -428,12 +470,12 @@ export const BoardsApiFp = function(configuration?: Configuration) {
         },
         /**
          * CRUD operations for boards.
-         * @param {number} id A unique integer value identifying this board.
+         * @param {string} id A UUID string identifying this Board.
          * @param {Board} board 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async boardsUpdate(id: number, board: Board, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
+        async boardsUpdate(id: string, board: Board, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Board>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.boardsUpdate(id, board, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardsApi.boardsUpdate']?.[localVarOperationServerIndex]?.url;
@@ -473,7 +515,7 @@ export const BoardsApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         boardsList(requestParameters: BoardsApiBoardsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedBoardList> {
-            return localVarFp.boardsList(requestParameters.baudRate, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.search, requestParameters.status, options).then((request) => request(axios, basePath));
+            return localVarFp.boardsList(requestParameters.capabilities, requestParameters.isAlive, requestParameters.isLocked, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.platform, requestParameters.project, requestParameters.relayId, requestParameters.search, requestParameters.status, requestParameters.testFarm, requestParameters.testPcId, options).then((request) => request(axios, basePath));
         },
         /**
          * CRUD operations for boards.
@@ -526,9 +568,9 @@ export interface BoardsApiBoardsCreateRequest {
  */
 export interface BoardsApiBoardsDestroyRequest {
     /**
-     * A unique integer value identifying this board.
+     * A UUID string identifying this Board.
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
@@ -536,9 +578,13 @@ export interface BoardsApiBoardsDestroyRequest {
  */
 export interface BoardsApiBoardsListRequest {
     /**
-     * * &#x60;9600&#x60; - 9600 * &#x60;19200&#x60; - 19200 * &#x60;38400&#x60; - 38400 * &#x60;57600&#x60; - 57600 * &#x60;115200&#x60; - 115200
+     * Unique identifier
      */
-    readonly baudRate?: BoardsListBaudRateEnum
+    readonly capabilities?: Array<string>
+
+    readonly isAlive?: boolean
+
+    readonly isLocked?: boolean
 
     readonly name?: string
 
@@ -552,12 +598,22 @@ export interface BoardsApiBoardsListRequest {
      */
     readonly page?: number
 
+    readonly platform?: string
+
+    readonly project?: string
+
+    readonly relayId?: string
+
     /**
      * A search term.
      */
     readonly search?: string
 
     readonly status?: string
+
+    readonly testFarm?: string
+
+    readonly testPcId?: string
 }
 
 /**
@@ -565,9 +621,9 @@ export interface BoardsApiBoardsListRequest {
  */
 export interface BoardsApiBoardsLogsRetrieveRequest {
     /**
-     * A unique integer value identifying this board.
+     * A UUID string identifying this Board.
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
@@ -575,9 +631,9 @@ export interface BoardsApiBoardsLogsRetrieveRequest {
  */
 export interface BoardsApiBoardsPartialUpdateRequest {
     /**
-     * A unique integer value identifying this board.
+     * A UUID string identifying this Board.
      */
-    readonly id: number
+    readonly id: string
 
     readonly patchedBoard?: PatchedBoard
 }
@@ -587,9 +643,9 @@ export interface BoardsApiBoardsPartialUpdateRequest {
  */
 export interface BoardsApiBoardsRetrieveRequest {
     /**
-     * A unique integer value identifying this board.
+     * A UUID string identifying this Board.
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
@@ -597,9 +653,9 @@ export interface BoardsApiBoardsRetrieveRequest {
  */
 export interface BoardsApiBoardsUpdateRequest {
     /**
-     * A unique integer value identifying this board.
+     * A UUID string identifying this Board.
      */
-    readonly id: number
+    readonly id: string
 
     readonly board: Board
 }
@@ -635,7 +691,7 @@ export class BoardsApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public boardsList(requestParameters: BoardsApiBoardsListRequest = {}, options?: RawAxiosRequestConfig) {
-        return BoardsApiFp(this.configuration).boardsList(requestParameters.baudRate, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.search, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
+        return BoardsApiFp(this.configuration).boardsList(requestParameters.capabilities, requestParameters.isAlive, requestParameters.isLocked, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.platform, requestParameters.project, requestParameters.relayId, requestParameters.search, requestParameters.status, requestParameters.testFarm, requestParameters.testPcId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -679,11 +735,3 @@ export class BoardsApi extends BaseAPI {
     }
 }
 
-export const BoardsListBaudRateEnum = {
-    NUMBER_115200: 115200,
-    NUMBER_19200: 19200,
-    NUMBER_38400: 38400,
-    NUMBER_57600: 57600,
-    NUMBER_9600: 9600
-} as const;
-export type BoardsListBaudRateEnum = typeof BoardsListBaudRateEnum[keyof typeof BoardsListBaudRateEnum];

@@ -15,36 +15,124 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { BaudRateEnum } from './baud-rate-enum';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { BoardCapability } from './board-capability';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { BoardStatusEnum } from './board-status-enum';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { DataBitsEnum } from './data-bits-enum';
+import type { Capability } from './capability';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ParityEnum } from './parity-enum';
+import type { DeviceTypeEnum } from './device-type-enum';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { StopBitsEnum } from './stop-bits-enum';
+import type { PlatformEnum } from './platform-enum';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Relay } from './relay';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TestFarmEnum } from './test-farm-enum';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { TestPC } from './test-pc';
 
 export interface PatchedBoard {
-    'id'?: number;
+    'id'?: string;
+    /**
+     * Human readable board name
+     */
     'name'?: string;
-    'serial_number'?: string;
-    'description'?: string;
-    'uart_port'?: string;
-    'baud_rate'?: BaudRateEnum;
-    'data_bits'?: DataBitsEnum;
-    'stop_bits'?: StopBitsEnum;
-    'parity'?: ParityEnum;
+    /**
+     * Hardware serial number
+     */
+    'hardware_serial_number'?: string;
+    /**
+     * Project name
+     */
+    'project'?: string;
+    /**
+     * Platform name  * `j721s2` - TI J721S2 * `j721e` - TI J721E * `j722s` - TI J722S * `j742s2` - TI J742S2 * `j784s4` - TI J784S4 * `j7200` - TI J7200 * `am62x` - TI AM62x * `am62px` - TI AM62Px
+     */
+    'platform'?: PlatformEnum;
+    /**
+     * Type of device  * `EVM` - Evaluation Module * `SOCKET_BOARD` - Socket Board * `BREAKOUT_BOARD` - Breakout Board * `CUSTOM` - Custom
+     */
+    'device_type'?: DeviceTypeEnum;
+    /**
+     * Processor SDK or software version
+     */
+    'pg_version'?: string;
+    /**
+     * Test execution engine
+     */
+    'execution_engine'?: string;
+    /**
+     * Test farm/environment  * `HLOS` - HLOS (Linux/QNX) * `RTOS` - RTOS (Real-Time OS) * `BAREMETAL` - Bare-metal * `STAGING` - Staging * `INTEGRATION` - Integration
+     */
+    'test_farm'?: TestFarmEnum;
+    /**
+     * SDK/firmware version
+     */
+    'sdk_version'?: string;
+    /**
+     * Board status  * `IDLE` - Idle * `BUSY` - Busy * `UPDATING_SDK` - Updating SDK * `OFFLINE` - Offline * `DEACTIVATED` - Deactivated * `ERROR` - Error
+     */
     'status'?: BoardStatusEnum;
-    'last_seen_at'?: string | null;
-    'capabilities'?: Array<BoardCapability>;
+    /**
+     * Whether board is responsive
+     */
+    'is_alive'?: boolean;
+    /**
+     * Whether board is locked for exclusive use
+     */
+    'is_locked'?: boolean;
+    /**
+     * IP address of the board
+     */
+    'board_ip'?: string | null;
+    'relay_id'?: string | null;
+    /**
+     * Port number on the relay
+     */
+    'relay_number'?: number | null;
+    'relay'?: Relay;
+    'test_pc_id'?: string | null;
+    'test_pc'?: TestPC;
+    /**
+     * Physical location
+     */
+    'location'?: string;
+    /**
+     * Last SDK update timestamp
+     */
+    'last_sdk_update_at'?: string | null;
+    /**
+     * Additional description
+     */
+    'description'?: string;
+    /**
+     * Administrative notes
+     */
+    'notes'?: string;
+    /**
+     * Creation timestamp
+     */
+    'created_at'?: string;
+    /**
+     * Last update timestamp
+     */
+    'updated_at'?: string;
+    /**
+     * Last test execution timestamp
+     */
+    'last_used_at'?: string | null;
+    /**
+     * Last heartbeat timestamp
+     */
+    'last_heartbeat_at'?: string | null;
+    'capabilities'?: Array<string>;
+    'capability_details'?: Array<Capability>;
+    'can_execute_test'?: string;
+    'is_healthy'?: string;
 }
 
 

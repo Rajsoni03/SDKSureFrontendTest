@@ -1,14 +1,18 @@
 # BoardStatusEnum
 
-* `CONNECTED` - Connected * `DISCONNECTED` - Disconnected * `OFFLINE` - Offline * `ERROR` - Error
+* `IDLE` - Idle * `BUSY` - Busy * `UPDATING_SDK` - Updating SDK * `OFFLINE` - Offline * `DEACTIVATED` - Deactivated * `ERROR` - Error
 
 ## Enum
 
-* `CONNECTED` (value: `'CONNECTED'`)
+* `IDLE` (value: `'IDLE'`)
 
-* `DISCONNECTED` (value: `'DISCONNECTED'`)
+* `BUSY` (value: `'BUSY'`)
+
+* `UPDATING_SDK` (value: `'UPDATING_SDK'`)
 
 * `OFFLINE` (value: `'OFFLINE'`)
+
+* `DEACTIVATED` (value: `'DEACTIVATED'`)
 
 * `ERROR` (value: `'ERROR'`)
 

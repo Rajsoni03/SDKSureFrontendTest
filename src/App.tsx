@@ -9,6 +9,9 @@ import { SystemConfigsPage } from '@/components/config/SystemConfigsPage'
 import { TagsPage } from '@/components/tag/TagsPage'
 import { TestRunsPage } from '@/components/test-run/TestRunsPage'
 import { TestCasesPage } from '@/components/test-case/TestCasesPage'
+import { CapabilitiesPage } from '@/components/capability/CapabilitiesPage'
+import { RelaysPage } from '@/components/relay/RelaysPage'
+import { TestPcsPage } from '@/components/test-pc/TestPcsPage'
 import { Button } from '@/components/ui/button'
 import { LoginPage } from '@/components/auth/LoginPage'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
@@ -128,6 +131,9 @@ function App() {
             <Route path="/users" element={<UsersPage />} />
             <Route path="/configs" element={<SystemConfigsPage />} />
             <Route path="/tags" element={<TagsPage />} />
+            <Route path="/capabilities" element={<CapabilitiesPage />} />
+            <Route path="/relays" element={<RelaysPage />} />
+            <Route path="/test-pcs" element={<TestPcsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

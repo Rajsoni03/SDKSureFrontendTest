@@ -7,27 +7,44 @@ import { BoardStatusEnum } from '@/services/api/generated/models/board-status-en
 import { apiCall } from '@/lib/apiHandler'
 import { BoardFormModal } from './BoardFormModal'
 import { Button } from '../ui/button'
+import type { PlatformEnum } from '@/services/api/generated/models/platform-enum'
 
 const statusOptions = [
   { label: 'All', value: '' },
-  { label: 'Connected', value: BoardStatusEnum.CONNECTED },
-  { label: 'Disconnected', value: BoardStatusEnum.DISCONNECTED },
+  { label: 'Idle', value: BoardStatusEnum.IDLE },
+  { label: 'Busy', value: BoardStatusEnum.BUSY },
+  { label: 'Updating SDK', value: BoardStatusEnum.UPDATING_SDK },
   { label: 'Offline', value: BoardStatusEnum.OFFLINE },
   { label: 'Error', value: BoardStatusEnum.ERROR },
+  { label: 'Deactivated', value: BoardStatusEnum.DEACTIVATED },
+]
+
+const platformOptions: { label: string; value: PlatformEnum | '' }[] = [
+  { label: 'All', value: '' },
+  { label: 'TI J721S2', value: 'j721s2' },
+  { label: 'TI J721E', value: 'j721e' },
+  { label: 'TI J722S', value: 'j722s' },
+  { label: 'TI J742S2', value: 'j742s2' },
+  { label: 'TI J784S4', value: 'j784s4' },
+  { label: 'TI J7200', value: 'j7200' },
+  { label: 'TI AM62x', value: 'am62x' },
+  { label: 'TI AM62Px', value: 'am62px' },
 ]
 
 export function BoardsPage() {
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<string>('')
+  const [platform, setPlatform] = useState<string>('')
   const [showModal, setShowModal] = useState(false)
 
   const filters = useMemo(
     () => ({
       search: search || undefined,
       status: status || undefined,
-      ordering: '-last_seen_at',
+      platform: platform || undefined,
+      ordering: '-updated_at',
     }),
-    [search, status],
+    [search, status, platform],
   )
 
   const { data, isLoading, isError, refetch, isFetching } = useBoards(filters)
@@ -67,19 +84,35 @@ export function BoardsPage() {
               className="w-full bg-transparent text-sm theme-text placeholder:text-slate-500 focus:outline-none"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <label className="text-xs theme-muted">Status</label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="rounded-lg border theme-border bg-[var(--panel)] px-3 py-2 text-sm theme-text focus:outline-none"
-            >
-              {statusOptions.map((opt) => (
-                <option key={opt.label} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <label className="text-xs theme-muted">Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="rounded-lg border theme-border bg-[var(--panel)] px-3 py-2 text-sm theme-text focus:outline-none"
+              >
+                {statusOptions.map((opt) => (
+                  <option key={opt.label} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-xs theme-muted">Platform</label>
+              <select
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value)}
+                className="rounded-lg border theme-border bg-[var(--panel)] px-3 py-2 text-sm theme-text focus:outline-none"
+              >
+                {platformOptions.map((opt) => (
+                  <option key={opt.label} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

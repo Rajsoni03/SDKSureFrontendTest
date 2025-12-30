@@ -5,23 +5,35 @@ const statusStyles: Record<
   BoardStatusEnum,
   { bg: string; text: string; dot: string; label: string }
 > = {
-  CONNECTED: {
+  IDLE: {
     bg: 'bg-emerald-500/10',
     text: 'text-emerald-200',
     dot: 'bg-emerald-400',
-    label: 'Connected',
+    label: 'Idle',
   },
-  DISCONNECTED: {
+  BUSY: {
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-200',
+    dot: 'bg-blue-400',
+    label: 'Busy',
+  },
+  UPDATING_SDK: {
     bg: 'bg-amber-500/10',
     text: 'text-amber-200',
     dot: 'bg-amber-400',
-    label: 'Disconnected',
+    label: 'Updating SDK',
   },
   OFFLINE: {
     bg: 'bg-slate-500/10',
     text: 'text-slate-200',
     dot: 'bg-slate-400',
     label: 'Offline',
+  },
+  DEACTIVATED: {
+    bg: 'bg-slate-500/10',
+    text: 'text-slate-200',
+    dot: 'bg-slate-400',
+    label: 'Deactivated',
   },
   ERROR: {
     bg: 'bg-red-500/10',

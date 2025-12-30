@@ -10,7 +10,7 @@ export const testCasesService = {
   list: (params?: { search?: string; ordering?: string; page?: number; is_active?: boolean }) =>
     testCasesApi.testCasesList(params ?? {}),
   retrieve: (id: number) => testCasesApi.testCasesRetrieve({ id }),
-  create: (payload: Partial<TestCase>) => testCasesApi.testCasesCreate({ ...(payload as any) }),
+  create: (payload: Partial<TestCase>) => testCasesApi.testCasesCreate({ testCase: payload as any }),
   update: (id: number, payload: PatchedTestCase) =>
     testCasesApi.testCasesPartialUpdate({ id, patchedTestCase: payload as any }),
 }

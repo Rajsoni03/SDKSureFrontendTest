@@ -1,4 +1,4 @@
-import { HardDrive, RefreshCw, Timer } from 'lucide-react'
+import { Cpu, Globe2, HardDrive, Plug, Shield, Timer } from 'lucide-react'
 import type { Board } from '@/services/api/generated/models/board'
 import { BoardStatusChip } from './BoardStatusChip'
 import { cn } from '@/lib/utils'
@@ -17,26 +17,45 @@ export function BoardCard({ board }: Props) {
           <div>
             <p className="text-xs uppercase tracking-wide text-emerald-300">Board</p>
             <h3 className="text-lg font-semibold theme-text">{board.name}</h3>
-            <p className="text-xs theme-muted">Serial: {board.serial_number}</p>
+            <p className="text-xs theme-muted">Serial: {board.hardware_serial_number}</p>
+            <p className="text-xs theme-muted">
+              Platform: {board.platform ?? '—'} · Project: {board.project ?? '—'}
+            </p>
           </div>
           <BoardStatusChip status={board.status} />
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <InfoRow label="UART" value={`${board.uart_port} · ${board.baud_rate ?? 'N/A'}`} />
-          <InfoRow label="Data bits" value={board.data_bits ?? '—'} />
-          <InfoRow label="Stop bits" value={board.stop_bits ?? '—'} />
-          <InfoRow label="Parity" value={board.parity ?? '—'} />
+          <InfoRow label="Device type" value={board.device_type ?? '—'} />
+          <InfoRow label="Test farm" value={board.test_farm ?? '—'} />
+          <InfoRow label="SDK version" value={board.sdk_version ?? '—'} />
+          <InfoRow label="Execution engine" value={board.execution_engine ?? '—'} />
         </div>
 
-        <div className="flex items-center gap-3 text-xs theme-muted">
+        <div className="flex flex-wrap items-center gap-2 text-xs theme-muted">
           <span className="inline-flex items-center gap-2 rounded-lg border theme-border px-2 py-1">
             <HardDrive className="h-3.5 w-3.5 text-emerald-300" />
             {capCount} capabilities
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Timer className="h-3.5 w-3.5 text-emerald-300" />
-            Last seen: {board.last_seen_at ? new Date(board.last_seen_at).toLocaleString() : '—'}
+            Last heartbeat: {board.last_heartbeat_at ? new Date(board.last_heartbeat_at).toLocaleString() : '—'}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
+            <Cpu className="h-3.5 w-3.5 text-emerald-300" />
+            Test PC: {board.test_pc_id ?? '—'}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
+            <Globe2 className="h-3.5 w-3.5 text-emerald-300" />
+            IP: {board.board_ip ?? '—'}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
+            <Plug className="h-3.5 w-3.5 text-emerald-300" />
+            Relay: {board.relay_id ?? '—'}#{board.relay_number ?? '—'}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
+            <Shield className="h-3.5 w-3.5 text-emerald-300" />
+            Healthy: {board.is_healthy ?? '—'}
           </span>
         </div>
       </div>

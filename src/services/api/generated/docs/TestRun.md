@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **number** |  | [readonly] [default to undefined]
 **test_case** | **number** |  | [default to undefined]
-**board** | **number** |  | [default to undefined]
+**board** | **string** |  | [default to undefined]
 **initiated_by** | **number** |  | [optional] [default to undefined]
 **status** | [**TestRunStatusEnum**](TestRunStatusEnum.md) |  | [optional] [default to undefined]
 **started_at** | **string** |  | [readonly] [default to undefined]

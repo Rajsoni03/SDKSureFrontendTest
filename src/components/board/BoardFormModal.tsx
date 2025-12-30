@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { X } from 'lucide-react'
 import { apiCall } from '@/lib/apiHandler'
 import { boardsService } from '@/services/boards'
 import { BoardStatusEnum } from '@/services/api/generated/models/board-status-enum'
-import type { BaudRateEnum } from '@/services/api/generated/models/baud-rate-enum'
+import { PlatformEnum } from '@/services/api/generated/models/platform-enum'
+import { DeviceTypeEnum } from '@/services/api/generated/models/device-type-enum'
+import { TestFarmEnum } from '@/services/api/generated/models/test-farm-enum'
 import { Button } from '@/components/ui/button'
+import { useRelays } from '@/hooks/useRelays'
+import { useTestPcs } from '@/hooks/useTestPcs'
+import { SearchableSelect } from '@/components/ui/SearchableSelect'
 
 interface Props {
   isOpen: boolean
@@ -12,15 +17,54 @@ interface Props {
   onCreated?: () => void
 }
 
-const baudRates: BaudRateEnum[] = [9600, 19200, 38400, 57600, 115200]
-
 export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
   const [name, setName] = useState('')
   const [serial, setSerial] = useState('')
-  const [uartPort, setUartPort] = useState('')
-  const [baudRate, setBaudRate] = useState<BaudRateEnum>(115200)
+  const [project, setProject] = useState('')
+  const [platform, setPlatform] = useState<PlatformEnum | ''>('')
+  const [deviceType, setDeviceType] = useState<DeviceTypeEnum | ''>('')
+  const [testFarm, setTestFarm] = useState<TestFarmEnum | ''>('')
+  const [sdkVersion, setSdkVersion] = useState('')
+  const [executionEngine, setExecutionEngine] = useState('')
+  const [boardIp, setBoardIp] = useState('')
+  const [relayId, setRelayId] = useState('')
+  const [relayNumber, setRelayNumber] = useState<number | ''>('')
+  const [testPcId, setTestPcId] = useState('')
   const [description, setDescription] = useState('')
   const [saving, setSaving] = useState(false)
+  const relayFilters = useMemo(
+    () => ({
+      ordering: 'relay_name',
+    }),
+    [],
+  )
+  const testPcFilters = useMemo(
+    () => ({
+      ordering: 'hostname',
+    }),
+    [],
+  )
+
+  const { data: relaysData, isLoading: relaysLoading } = useRelays(relayFilters)
+  const { data: testPcsData, isLoading: testPcsLoading } = useTestPcs(testPcFilters)
+
+  const relayOptions = useMemo(
+    () =>
+      (relaysData?.results ?? []).map((r) => ({
+        label: `${r.relay_name} (${r.ip_address})`,
+        value: r.id,
+      })),
+    [relaysData],
+  )
+
+  const testPcOptions = useMemo(
+    () =>
+      (testPcsData?.results ?? []).map((pc) => ({
+        label: `${pc.hostname} (${pc.ip_address})`,
+        value: pc.id,
+      })),
+    [testPcsData],
+  )
 
   if (!isOpen) return null
 
@@ -32,11 +76,21 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
         () =>
           boardsService.create({
             name,
-            serial_number: serial,
-            uart_port: uartPort,
-            baud_rate: baudRate,
+            hardware_serial_number: serial,
+            project,
+            platform: platform || PlatformEnum.j721e,
+            device_type: deviceType || undefined,
+            test_farm: testFarm || TestFarmEnum.HLOS,
+            sdk_version: sdkVersion || 'unknown',
+            execution_engine: executionEngine || undefined,
+            board_ip: boardIp || undefined,
+            relay_id: relayId || undefined,
+            relay_number: relayNumber === '' ? undefined : relayNumber,
+            test_pc_id: testPcId || undefined,
             description: description || undefined,
-            status: BoardStatusEnum.DISCONNECTED,
+            status: BoardStatusEnum.IDLE,
+            is_alive: true,
+            is_locked: false,
           } as any),
         {
           successMessage: 'Board created',
@@ -46,7 +100,16 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
       onClose()
       setName('')
       setSerial('')
-      setUartPort('')
+      setProject('')
+      setPlatform('')
+      setDeviceType('')
+      setTestFarm('')
+      setSdkVersion('')
+      setExecutionEngine('')
+      setBoardIp('')
+      setRelayId('')
+      setRelayNumber('')
+      setTestPcId('')
       setDescription('')
     } catch (err) {
       // handled by apiCall toast
@@ -57,7 +120,7 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-      <div className="relative w-full max-w-lg rounded-2xl border theme-border theme-panel p-6 shadow-2xl">
+      <div className="relative w-full max-w-3xl rounded-2xl border theme-border theme-panel p-6 shadow-2xl">
         <button
           onClick={onClose}
           className="absolute right-3 top-3 rounded-full p-2 text-slate-400 hover:bg-white/5"
@@ -67,7 +130,7 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
         </button>
         <div className="space-y-1">
           <h3 className="text-xl font-semibold theme-text">Add Board</h3>
-          <p className="text-sm theme-muted">Create a new board entry with UART settings.</p>
+          <p className="text-sm theme-muted">Create a new board entry with platform and environment details.</p>
         </div>
 
         <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
@@ -81,7 +144,7 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
                 placeholder="Board name"
               />
             </Field>
-            <Field label="Serial number">
+            <Field label="Hardware serial">
               <input
                 required
                 value={serial}
@@ -93,39 +156,123 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            <Field label="UART port">
+            <Field label="Project">
               <input
                 required
-                value={uartPort}
-                onChange={(e) => setUartPort(e.target.value)}
+                value={project}
+                onChange={(e) => setProject(e.target.value)}
                 className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
-                placeholder="/dev/ttyUSB0"
+                placeholder="Project name"
               />
             </Field>
-            <Field label="Baud rate">
+            <Field label="Platform">
               <select
-                value={baudRate}
-                onChange={(e) => setBaudRate(Number(e.target.value) as BaudRateEnum)}
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value as PlatformEnum)}
                 className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
               >
-                {baudRates.map((rate) => (
-                  <option key={rate} value={rate}>
-                    {rate}
+                {Object.values(PlatformEnum).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
                   </option>
                 ))}
               </select>
             </Field>
           </div>
 
-          <Field label="Description">
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
-              rows={3}
-              placeholder="Optional details"
-            />
-          </Field>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Field label="Device type">
+              <select
+                value={deviceType}
+                onChange={(e) => setDeviceType(e.target.value as DeviceTypeEnum)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+              >
+                <option value="">Select</option>
+                {Object.values(DeviceTypeEnum).map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Test farm">
+              <select
+                value={testFarm}
+                onChange={(e) => setTestFarm(e.target.value as TestFarmEnum)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+              >
+                {Object.values(TestFarmEnum).map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="SDK version">
+              <input
+                value={sdkVersion}
+                onChange={(e) => setSdkVersion(e.target.value)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+                placeholder="e.g. 9.1.0"
+              />
+            </Field>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Field label="Execution engine">
+              <input
+                value={executionEngine}
+                onChange={(e) => setExecutionEngine(e.target.value)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+                placeholder="pytest, robot, etc."
+              />
+            </Field>
+            <Field label="Board IP">
+              <input
+                value={boardIp}
+                onChange={(e) => setBoardIp(e.target.value)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+                placeholder="192.168.0.10"
+              />
+            </Field>
+            <Field label="Location">
+              <input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+                placeholder="Lab rack"
+              />
+            </Field>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Field label="Relay">
+              <SearchableSelect
+                options={relayOptions}
+                value={relayId}
+                placeholder="Select relay"
+                onChange={(val) => setRelayId(val ?? '')}
+              />
+              {relaysLoading && <p className="text-xs theme-muted mt-1">Loading relays…</p>}
+            </Field>
+            <Field label="Relay number">
+              <input
+                value={relayNumber}
+                onChange={(e) => setRelayNumber(e.target.value === '' ? '' : Number(e.target.value))}
+                className="w-full rounded-lg border theme-border bg-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+                placeholder="1"
+              />
+            </Field>
+            <Field label="Test PC">
+              <SearchableSelect
+                options={testPcOptions}
+                value={testPcId}
+                placeholder="Select test PC"
+                onChange={(val) => setTestPcId(val ?? '')}
+              />
+              {testPcsLoading && <p className="text-xs theme-muted mt-1">Loading test PCs…</p>}
+            </Field>
+          </div>
 
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="ghost" onClick={onClose}>
