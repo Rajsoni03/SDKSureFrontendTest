@@ -1,13 +1,15 @@
-import { Cpu, Globe2, HardDrive, Plug, Shield, Timer } from 'lucide-react'
+import { Cpu, Edit2, Globe2, HardDrive, Plug, Shield, Timer } from 'lucide-react'
 import type { Board } from '@/services/api/generated/models/board'
 import { BoardStatusChip } from './BoardStatusChip'
 import { cn } from '@/lib/utils'
+import { Button } from '../ui/button'
 
 interface Props {
   board: Board
+  onEdit?: (board: Board) => void
 }
 
-export function BoardCard({ board }: Props) {
+export function BoardCard({ board, onEdit }: Props) {
   const capCount = board.capabilities?.length ?? 0
   return (
     <div className="relative overflow-hidden rounded-2xl border theme-border theme-panel-soft p-4 transition hover:-translate-y-0.5 hover:border-emerald-400/50 hover:shadow-[var(--shadow)]">
@@ -22,7 +24,15 @@ export function BoardCard({ board }: Props) {
               Platform: {board.platform ?? '—'} · Project: {board.project ?? '—'}
             </p>
           </div>
-          <BoardStatusChip status={board.status} />
+          <div className="flex items-center gap-2">
+            <BoardStatusChip status={board.status} />
+            {onEdit && (
+              <Button variant="secondary" size="sm" className="gap-2" onClick={() => onEdit(board)}>
+                <Edit2 className="h-4 w-4" />
+                Edit
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
@@ -43,7 +53,7 @@ export function BoardCard({ board }: Props) {
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Cpu className="h-3.5 w-3.5 text-emerald-300" />
-            Test PC: {board.test_pc_id ?? '—'}
+            Test PC: {board.test_pc?.hostname ?? board.test_pc_id ?? '—'}
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Globe2 className="h-3.5 w-3.5 text-emerald-300" />
@@ -51,7 +61,7 @@ export function BoardCard({ board }: Props) {
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Plug className="h-3.5 w-3.5 text-emerald-300" />
-            Relay: {board.relay_id ?? '—'}#{board.relay_number ?? '—'}
+            Relay: {board.relay?.relay_name ?? board.relay_id ?? '—'}#{board.relay_number ?? '—'}
           </span>
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Shield className="h-3.5 w-3.5 text-emerald-300" />

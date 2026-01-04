@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { X } from 'lucide-react'
 import { apiCall } from '@/lib/apiHandler'
 import { boardsService } from '@/services/boards'
@@ -10,14 +10,18 @@ import { Button } from '@/components/ui/button'
 import { useRelays } from '@/hooks/useRelays'
 import { useTestPcs } from '@/hooks/useTestPcs'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
+import { useCapabilities } from '@/hooks/useCapabilities'
+import { MultiSelect } from '@/components/ui/MultiSelect'
+import type { Board } from '@/services/api/generated/models/board'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
-  onCreated?: () => void
+  onSaved?: () => void
+  editingBoard?: Board | null
 }
 
-export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
+export function BoardFormModal({ isOpen, onClose, onSaved, editingBoard }: Props) {
   const [name, setName] = useState('')
   const [serial, setSerial] = useState('')
   const [project, setProject] = useState('')
@@ -31,7 +35,9 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
   const [relayNumber, setRelayNumber] = useState<number | ''>('')
   const [testPcId, setTestPcId] = useState('')
   const [description, setDescription] = useState('')
+  const [capabilityIds, setCapabilityIds] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
+  const isEditing = !!editingBoard
   const relayFilters = useMemo(
     () => ({
       ordering: 'relay_name',
@@ -47,6 +53,10 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
 
   const { data: relaysData, isLoading: relaysLoading } = useRelays(relayFilters)
   const { data: testPcsData, isLoading: testPcsLoading } = useTestPcs(testPcFilters)
+  const { data: capabilitiesData } = useCapabilities({
+    ordering: 'name',
+    page: 1,
+  })
 
   const relayOptions = useMemo(
     () =>
@@ -66,38 +76,33 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
     [testPcsData],
   )
 
-  if (!isOpen) return null
+  const capabilityOptions = useMemo(
+    () =>
+      (capabilitiesData?.results ?? []).map((cap) => ({
+        label: cap.name ?? 'Capability',
+        value: cap.id,
+      })),
+    [capabilitiesData],
+  )
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSaving(true)
-    try {
-      await apiCall(
-        () =>
-          boardsService.create({
-            name,
-            hardware_serial_number: serial,
-            project,
-            platform: platform || PlatformEnum.j721e,
-            device_type: deviceType || undefined,
-            test_farm: testFarm || TestFarmEnum.HLOS,
-            sdk_version: sdkVersion || 'unknown',
-            execution_engine: executionEngine || undefined,
-            board_ip: boardIp || undefined,
-            relay_id: relayId || undefined,
-            relay_number: relayNumber === '' ? undefined : relayNumber,
-            test_pc_id: testPcId || undefined,
-            description: description || undefined,
-            status: BoardStatusEnum.IDLE,
-            is_alive: true,
-            is_locked: false,
-          } as any),
-        {
-          successMessage: 'Board created',
-        },
-      )
-      onCreated?.()
-      onClose()
+  useEffect(() => {
+    if (!isOpen) return
+    if (editingBoard) {
+      setName(editingBoard.name ?? '')
+      setSerial(editingBoard.hardware_serial_number ?? '')
+      setProject(editingBoard.project ?? '')
+      setPlatform((editingBoard.platform as PlatformEnum) ?? '')
+      setDeviceType((editingBoard.device_type as DeviceTypeEnum) ?? '')
+      setTestFarm((editingBoard.test_farm as TestFarmEnum) ?? '')
+      setSdkVersion(editingBoard.sdk_version ?? '')
+      setExecutionEngine(editingBoard.execution_engine ?? '')
+      setBoardIp(editingBoard.board_ip ?? '')
+      setRelayId(editingBoard.relay_id ?? '')
+      setRelayNumber((editingBoard.relay_number as number) ?? '')
+      setTestPcId(editingBoard.test_pc_id ?? '')
+      setDescription(editingBoard.description ?? '')
+      setCapabilityIds((editingBoard.capabilities ?? []).map((c) => c.id))
+    } else {
       setName('')
       setSerial('')
       setProject('')
@@ -111,6 +116,87 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
       setRelayNumber('')
       setTestPcId('')
       setDescription('')
+      setCapabilityIds([])
+    }
+  }, [editingBoard, isOpen])
+
+  if (!isOpen) return null
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+    try {
+      if (isEditing && editingBoard) {
+        await apiCall(
+          () =>
+            boardsService.update(editingBoard.id, {
+              name,
+              hardware_serial_number: serial,
+              project,
+              platform: platform || undefined,
+              device_type: deviceType || undefined,
+              test_farm: testFarm || undefined,
+              sdk_version: sdkVersion || undefined,
+              execution_engine: executionEngine || undefined,
+              board_ip: boardIp || undefined,
+              relay_id: relayId || undefined,
+              relay_number: relayNumber === '' ? undefined : relayNumber,
+              test_pc_id: testPcId || undefined,
+              description: description || undefined,
+              capability_ids: capabilityIds,
+              status: editingBoard.status,
+              is_alive: editingBoard.is_alive,
+              is_locked: editingBoard.is_locked,
+            } as any),
+          {
+            successMessage: 'Board updated',
+            errorMessage: 'Failed to update board',
+          },
+        )
+      } else {
+        await apiCall(
+          () =>
+            boardsService.create({
+              name,
+              hardware_serial_number: serial,
+              project,
+              platform: platform || PlatformEnum.j721e,
+              device_type: deviceType || undefined,
+              test_farm: testFarm || TestFarmEnum.HLOS,
+              sdk_version: sdkVersion || 'unknown',
+              execution_engine: executionEngine || undefined,
+              board_ip: boardIp || undefined,
+              relay_id: relayId || undefined,
+              relay_number: relayNumber === '' ? undefined : relayNumber,
+              test_pc_id: testPcId || undefined,
+              description: description || undefined,
+              capability_ids: capabilityIds,
+              status: BoardStatusEnum.IDLE,
+              is_alive: true,
+              is_locked: false,
+            } as any),
+          {
+            successMessage: 'Board created',
+            errorMessage: 'Failed to create board',
+          },
+        )
+        setName('')
+        setSerial('')
+        setProject('')
+        setPlatform('')
+        setDeviceType('')
+        setTestFarm('')
+        setSdkVersion('')
+        setExecutionEngine('')
+        setBoardIp('')
+        setRelayId('')
+        setRelayNumber('')
+        setTestPcId('')
+        setDescription('')
+        setCapabilityIds([])
+      }
+      onSaved?.()
+      onClose()
     } catch (err) {
       // handled by apiCall toast
     } finally {
@@ -129,11 +215,13 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
           <X className="h-4 w-4" />
         </button>
         <div className="space-y-1">
-          <h3 className="text-xl font-semibold theme-text">Add Board</h3>
-          <p className="text-sm theme-muted">Create a new board entry with platform and environment details.</p>
+          <h3 className="text-xl font-semibold theme-text">{isEditing ? 'Edit Board' : 'Add Board'}</h3>
+          <p className="text-sm theme-muted">
+            {isEditing ? 'Update board details and connections.' : 'Create a new board entry with platform and environment details.'}
+          </p>
         </div>
 
-        <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
+        <form className="mt-4 space-y-3 max-h-[70vh] overflow-y-auto pr-1" onSubmit={handleSubmit}>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Name">
               <input
@@ -274,12 +362,21 @@ export function BoardFormModal({ isOpen, onClose, onCreated }: Props) {
             </Field>
           </div>
 
+          <Field label="Capabilities">
+            <MultiSelect
+              options={capabilityOptions}
+              value={capabilityIds}
+              placeholder="Select capabilities"
+              onChange={setCapabilityIds}
+            />
+          </Field>
+
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="ghost" onClick={onClose}>
               Cancel
             </Button>
             <Button type="submit" disabled={saving}>
-              {saving ? 'Saving...' : 'Create'}
+              {saving ? 'Saving...' : isEditing ? 'Update' : 'Create'}
             </Button>
           </div>
         </form>

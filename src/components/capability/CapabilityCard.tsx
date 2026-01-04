@@ -1,19 +1,6 @@
-import { Check, Edit2, Zap } from 'lucide-react'
+import { Edit2, Zap } from 'lucide-react'
 import type { Capability } from '@/services/api/generated/models/capability'
-import { NameEnum } from '@/services/api/generated/models/name-enum'
 import { Button } from '../ui/button'
-
-const nameLabels: Record<NameEnum, string> = {
-  [NameEnum.CMD]: 'Command Execution',
-  [NameEnum.CAMERA]: 'Camera Testing',
-  [NameEnum.DISPLAY]: 'Display Output',
-  [NameEnum.SOUND]: 'Sound/Audio',
-  [NameEnum.FILE]: 'File System',
-  [NameEnum.SENSOR]: 'Sensor Reading',
-  [NameEnum.GPIO]: 'GPIO Control',
-  [NameEnum.ADC]: 'Analog-to-Digital',
-  [NameEnum.NETWORK]: 'Network Connectivity',
-}
 
 interface Props {
   capability: Capability
@@ -21,7 +8,7 @@ interface Props {
 }
 
 export function CapabilityCard({ capability, onEdit }: Props) {
-  const label = capability.name ? nameLabels[capability.name] ?? capability.name : 'Capability'
+  const label = capability.name || 'Capability'
   return (
     <div className="relative overflow-hidden rounded-2xl border theme-border theme-panel-soft p-4 transition hover:-translate-y-0.5 hover:border-emerald-400/50 hover:shadow-[var(--shadow)]">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5" />

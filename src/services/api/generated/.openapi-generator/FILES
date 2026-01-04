@@ -27,7 +27,6 @@ docs/DashboardMetric.md
 docs/DashboardMetricsApi.md
 docs/DeviceTypeEnum.md
 docs/ModelTypeEnum.md
-docs/NameEnum.md
 docs/OsVersionEnum.md
 docs/PCStats.md
 docs/PCStatsStatusEnum.md
@@ -89,7 +88,6 @@ models/dashboard-metric.ts
 models/device-type-enum.ts
 models/index.ts
 models/model-type-enum.ts
-models/name-enum.ts
 models/os-version-enum.ts
 models/paginated-board-list.ts
 models/paginated-capability-list.ts

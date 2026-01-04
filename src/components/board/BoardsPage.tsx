@@ -8,6 +8,7 @@ import { apiCall } from '@/lib/apiHandler'
 import { BoardFormModal } from './BoardFormModal'
 import { Button } from '../ui/button'
 import type { PlatformEnum } from '@/services/api/generated/models/platform-enum'
+import type { Board } from '@/services/api/generated/models/board'
 
 const statusOptions = [
   { label: 'All', value: '' },
@@ -36,6 +37,7 @@ export function BoardsPage() {
   const [status, setStatus] = useState<string>('')
   const [platform, setPlatform] = useState<string>('')
   const [showModal, setShowModal] = useState(false)
+  const [editingBoard, setEditingBoard] = useState<Board | null>(null)
 
   const filters = useMemo(
     () => ({
@@ -58,7 +60,14 @@ export function BoardsPage() {
           <h2 className="text-2xl font-semibold theme-text">Boards</h2>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Button onClick={() => setShowModal(true)}>Add Board</Button>
+          <Button
+            onClick={() => {
+              setEditingBoard(null)
+              setShowModal(true)
+            }}
+          >
+            Add Board
+          </Button>
           <button
             type="button"
             onClick={() =>
@@ -135,7 +144,14 @@ export function BoardsPage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {boards.map((board) => (
-              <BoardCard key={board.id} board={board} />
+              <BoardCard
+                key={board.id}
+                board={board}
+                onEdit={(b) => {
+                  setEditingBoard(b)
+                  setShowModal(true)
+                }}
+              />
             ))}
           </div>
         )}
@@ -143,8 +159,16 @@ export function BoardsPage() {
 
       <BoardFormModal
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onCreated={() => refetch()}
+        editingBoard={editingBoard}
+        onClose={() => {
+          setShowModal(false)
+          setEditingBoard(null)
+        }}
+        onSaved={() => {
+          setShowModal(false)
+          setEditingBoard(null)
+          refetch()
+        }}
       />
     </div>
   )

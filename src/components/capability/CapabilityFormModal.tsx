@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import type { Capability } from '@/services/api/generated/models/capability'
-import { NameEnum } from '@/services/api/generated/models/name-enum'
 import { capabilitiesService } from '@/services/capabilities'
 import { apiCall } from '@/lib/apiHandler'
 import { Button } from '../ui/button'
@@ -14,7 +13,7 @@ interface Props {
 }
 
 export function CapabilityFormModal({ isOpen, onClose, onSaved, editingCapability }: Props) {
-  const [name, setName] = useState<NameEnum | ''>('')
+  const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [isActive, setIsActive] = useState(true)
   const isEditing = !!editingCapability
@@ -44,7 +43,7 @@ export function CapabilityFormModal({ isOpen, onClose, onSaved, editingCapabilit
               is_active: isActive,
             })
           : capabilitiesService.create({
-              name: name || NameEnum.CMD,
+              name,
               description: description || undefined,
               is_active: isActive,
             }),
@@ -74,18 +73,13 @@ export function CapabilityFormModal({ isOpen, onClose, onSaved, editingCapabilit
         <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
           <label className="flex flex-col gap-2 text-sm">
             <span className="theme-text">Name</span>
-            <select
-              value={name}
-              onChange={(e) => setName(e.target.value as NameEnum)}
-              className="w-full rounded-lg border theme-border theme-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+            <input
               required
-            >
-              {Object.values(NameEnum).map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-lg border theme-border theme-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
+              placeholder="Capability name"
+            />
           </label>
           <label className="flex flex-col gap-2 text-sm">
             <span className="theme-text">Description</span>

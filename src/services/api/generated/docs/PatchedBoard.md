@@ -32,8 +32,8 @@ Name | Type | Description | Notes
 **updated_at** | **string** | Last update timestamp | [optional] [readonly] [default to undefined]
 **last_used_at** | **string** | Last test execution timestamp | [optional] [readonly] [default to undefined]
 **last_heartbeat_at** | **string** | Last heartbeat timestamp | [optional] [readonly] [default to undefined]
-**capabilities** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**capability_details** | [**Array&lt;Capability&gt;**](Capability.md) |  | [optional] [readonly] [default to undefined]
+**capabilities** | [**Array&lt;Capability&gt;**](Capability.md) |  | [optional] [readonly] [default to undefined]
+**capability_ids** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **can_execute_test** | **string** |  | [optional] [readonly] [default to undefined]
 **is_healthy** | **string** |  | [optional] [readonly] [default to undefined]
 
@@ -71,7 +71,7 @@ const instance: PatchedBoard = {
     last_used_at,
     last_heartbeat_at,
     capabilities,
-    capability_details,
+    capability_ids,
     can_execute_test,
     is_healthy,
 };

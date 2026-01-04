@@ -13,9 +13,6 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { NameEnum } from './name-enum';
 
 export interface PatchedCapability {
     /**
@@ -23,9 +20,9 @@ export interface PatchedCapability {
      */
     'id'?: string;
     /**
-     * Capability name  * `CMD` - Command Execution * `CAMERA` - Camera Testing * `DISPLAY` - Display Output * `SOUND` - Sound/Audio * `FILE` - File System * `SENSOR` - Sensor Reading * `GPIO` - GPIO Control * `ADC` - Analog-to-Digital * `NETWORK` - Network Connectivity
+     * Capability name
      */
-    'name'?: NameEnum;
+    'name'?: string;
     /**
      * Detailed description of this capability
      */
@@ -37,6 +34,4 @@ export interface PatchedCapability {
     'created_at'?: string;
     'updated_at'?: string;
 }
-
-
 

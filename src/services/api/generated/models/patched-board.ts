@@ -129,8 +129,8 @@ export interface PatchedBoard {
      * Last heartbeat timestamp
      */
     'last_heartbeat_at'?: string | null;
-    'capabilities'?: Array<string>;
-    'capability_details'?: Array<Capability>;
+    'capabilities'?: Array<Capability>;
+    'capability_ids'?: Array<string>;
     'can_execute_test'?: string;
     'is_healthy'?: string;
 }

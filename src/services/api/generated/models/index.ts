@@ -4,7 +4,6 @@ export * from './capability';
 export * from './dashboard-metric';
 export * from './device-type-enum';
 export * from './model-type-enum';
-export * from './name-enum';
 export * from './os-version-enum';
 export * from './pcstats';
 export * from './pcstats-status-enum';
