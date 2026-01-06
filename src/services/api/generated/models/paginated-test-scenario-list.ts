@@ -15,20 +15,12 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Label } from './label';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { TestType } from './test-type';
+import type { TestScenario } from './test-scenario';
 
-export interface TestCase {
-    'id': number;
-    'title': string;
-    'description'?: string;
-    'test_type': TestType;
-    'tags': Array<Label>;
-    'is_active'?: boolean;
-    'created_by'?: number | null;
-    'created_at': string;
-    'updated_at': string;
+export interface PaginatedTestScenarioList {
+    'count': number;
+    'next'?: string | null;
+    'previous'?: string | null;
+    'results': Array<TestScenario>;
 }
 

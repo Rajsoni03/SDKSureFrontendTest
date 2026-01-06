@@ -16,19 +16,11 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { Label } from './label';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { TestType } from './test-type';
 
-export interface PatchedTestCase {
-    'id'?: number;
-    'title'?: string;
-    'description'?: string;
-    'test_type'?: TestType;
-    'tags'?: Array<Label>;
-    'is_active'?: boolean;
-    'created_by'?: number | null;
-    'created_at'?: string;
-    'updated_at'?: string;
+export interface PaginatedLabelList {
+    'count': number;
+    'next'?: string | null;
+    'previous'?: string | null;
+    'results': Array<Label>;
 }
 

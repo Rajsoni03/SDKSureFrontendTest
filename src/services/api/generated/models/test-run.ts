@@ -15,24 +15,26 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { Label } from './label';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { TestResult } from './test-result';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { TestRunStatusEnum } from './test-run-status-enum';
+import type { TestScenario } from './test-scenario';
 
 export interface TestRun {
     'id': number;
-    'test_case': number;
-    'board': string;
-    'initiated_by'?: number | null;
-    'status'?: TestRunStatusEnum;
-    'started_at': string | null;
-    'finished_at': string | null;
-    'output_log'?: string;
+    'name': string;
+    'description'?: string;
+    'scenarios': Array<TestScenario>;
+    'scenario_ids'?: Array<number>;
+    'labels': Array<Label>;
+    'label_ids'?: Array<number>;
     'results': Array<TestResult>;
+    'created_by': number | null;
+    'updated_by': number | null;
     'created_at': string;
     'updated_at': string;
 }
-
-
 

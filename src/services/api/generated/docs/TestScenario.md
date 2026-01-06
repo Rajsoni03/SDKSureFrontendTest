@@ -1,4 +1,4 @@
-# TestRun
+# TestScenario
 
 
 ## Properties
@@ -8,11 +8,10 @@ Name | Type | Description | Notes
 **id** | **number** |  | [readonly] [default to undefined]
 **name** | **string** |  | [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
-**scenarios** | [**Array&lt;TestScenario&gt;**](TestScenario.md) |  | [readonly] [default to undefined]
-**scenario_ids** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
+**test_cases** | [**Array&lt;TestCaseSummary&gt;**](TestCaseSummary.md) |  | [readonly] [default to undefined]
+**test_case_ids** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
 **labels** | [**Array&lt;Label&gt;**](Label.md) |  | [readonly] [default to undefined]
 **label_ids** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
-**results** | [**Array&lt;TestResult&gt;**](TestResult.md) |  | [readonly] [default to undefined]
 **created_by** | **number** |  | [readonly] [default to undefined]
 **updated_by** | **number** |  | [readonly] [default to undefined]
 **created_at** | **string** |  | [readonly] [default to undefined]
@@ -21,17 +20,16 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { TestRun } from './api';
+import { TestScenario } from './api';
 
-const instance: TestRun = {
+const instance: TestScenario = {
     id,
     name,
     description,
-    scenarios,
-    scenario_ids,
+    test_cases,
+    test_case_ids,
     labels,
     label_ids,
-    results,
     created_by,
     updated_by,
     created_at,

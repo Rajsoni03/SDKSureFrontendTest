@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
-import type { Tag } from '@/services/api/generated/models/tag'
-import { tagsService } from '@/services/tags'
+import type { Label } from '@/services/api/generated/models/label'
+import { labelsService } from '@/services/labels'
 import { apiCall } from '@/lib/apiHandler'
 import { Button } from '../ui/button'
 
@@ -9,20 +9,20 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onSaved?: () => void
-  editingTag?: Tag | null
+  editingLabel?: Label | null
 }
 
-export function TagFormModal({ isOpen, onClose, onSaved, editingTag }: Props) {
+export function LabelFormModal({ isOpen, onClose, onSaved, editingLabel }: Props) {
   const [name, setName] = useState('')
-  const isEditing = !!editingTag
+  const isEditing = !!editingLabel
 
   useEffect(() => {
-    if (editingTag) {
-      setName(editingTag.name)
+    if (editingLabel) {
+      setName(editingLabel.name)
     } else {
       setName('')
     }
-  }, [editingTag])
+  }, [editingLabel])
 
   if (!isOpen) return null
 
@@ -30,12 +30,12 @@ export function TagFormModal({ isOpen, onClose, onSaved, editingTag }: Props) {
     e.preventDefault()
     await apiCall(
       () =>
-        isEditing && editingTag
-          ? tagsService.update(editingTag.id, { name })
-          : tagsService.create({ name }),
+        isEditing && editingLabel
+          ? labelsService.update(editingLabel.id, { name })
+          : labelsService.create({ name }),
       {
-        successMessage: isEditing ? 'Tag updated' : 'Tag created',
-        errorMessage: 'Tag save failed',
+        successMessage: isEditing ? 'Label updated' : 'Label created',
+        errorMessage: 'Label save failed',
       },
     )
     onSaved?.()
@@ -53,8 +53,8 @@ export function TagFormModal({ isOpen, onClose, onSaved, editingTag }: Props) {
           <X className="h-4 w-4" />
         </button>
         <div className="space-y-1">
-          <h3 className="text-xl font-semibold theme-text">{isEditing ? 'Edit Tag' : 'Add Tag'}</h3>
-          <p className="text-sm theme-muted">Organize test cases and runs with tags.</p>
+          <h3 className="text-xl font-semibold theme-text">{isEditing ? 'Edit Label' : 'Add Label'}</h3>
+          <p className="text-sm theme-muted">Organize test cases, scenarios, and runs with labels.</p>
         </div>
         <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
           <label className="flex flex-col gap-2 text-sm">
@@ -64,7 +64,7 @@ export function TagFormModal({ isOpen, onClose, onSaved, editingTag }: Props) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg border theme-border theme-panel-soft px-3 py-2 text-sm theme-text focus:outline-none"
-              placeholder="Tag name"
+              placeholder="Label name"
             />
           </label>
 

@@ -4,44 +4,55 @@ import { useTestRuns } from '@/hooks/useTestRuns'
 import { TestRunCard } from './TestRunCard'
 import { apiCall } from '@/lib/apiHandler'
 import { Button } from '../ui/button'
-import { TestRunStatusEnum } from '@/services/api/generated/models/test-run-status-enum'
-
-const statusOptions = [
-  { label: 'All', value: '' },
-  { label: 'Pending', value: TestRunStatusEnum.PENDING },
-  { label: 'Running', value: TestRunStatusEnum.RUNNING },
-  { label: 'Paused', value: TestRunStatusEnum.PAUSED },
-  { label: 'Completed', value: TestRunStatusEnum.COMPLETED },
-  { label: 'Failed', value: TestRunStatusEnum.FAILED },
-  { label: 'Killed', value: TestRunStatusEnum.KILLED },
-]
+import { useLabels } from '@/hooks/useLabels'
+import { useTestScenarios } from '@/hooks/useTestScenarios'
+import { SearchableSelect } from '../ui/SearchableSelect'
+import { TestRunFormModal } from './TestRunFormModal'
 
 export function TestRunsPage() {
   const [search, setSearch] = useState('')
-  const [status, setStatus] = useState<string>('')
+  const [labelId, setLabelId] = useState<string>('')
+  const [scenarioId, setScenarioId] = useState<string>('')
   const [page, setPage] = useState(1)
+  const [showModal, setShowModal] = useState(false)
 
   const filters = useMemo(
     () => ({
       search: search || undefined,
-      status: status || undefined,
+      label: labelId ? Number(labelId) : undefined,
+      scenario: scenarioId ? Number(scenarioId) : undefined,
       page,
       ordering: '-created_at',
     }),
-    [search, status, page],
+    [search, labelId, scenarioId, page],
   )
 
   const { data, isLoading, isError, refetch, isFetching } = useTestRuns(filters)
   const runs = data?.results ?? []
+  const { data: labelsData } = useLabels({ ordering: 'name', page: 1 })
+  const { data: scenariosData } = useTestScenarios({ ordering: 'name', page: 1 })
+
+  const labelOptions =
+    labelsData?.results?.map((l) => ({
+      label: l.name,
+      value: String(l.id),
+    })) ?? []
+  const scenarioOptions =
+    scenariosData?.results?.map((s) => ({
+      label: s.name,
+      value: String(s.id),
+    })) ?? []
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm uppercase tracking-wide text-emerald-300">Execution</p>
-          <h2 className="text-2xl font-semibold theme-text">Test Runs</h2>
-        </div>
+    <>
+      <div className="space-y-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-wide text-emerald-300">Execution</p>
+            <h2 className="text-2xl font-semibold theme-text">Test Runs</h2>
+          </div>
         <div className="flex flex-wrap gap-3">
+          <Button onClick={() => setShowModal(true)}>Add Test Run</Button>
           <Button
             variant="secondary"
             onClick={() => apiCall(() => refetch(), { errorMessage: 'Failed to refresh runs' })}
@@ -66,22 +77,35 @@ export function TestRunsPage() {
               className="w-full bg-transparent text-sm theme-text placeholder:text-slate-500 focus:outline-none"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <label className="text-xs theme-muted">Status</label>
-            <select
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value)
-                setPage(1)
-              }}
-              className="rounded-lg border theme-border bg-[var(--panel)] px-3 py-2 text-sm theme-text focus:outline-none"
-            >
-              {statusOptions.map((opt) => (
-                <option key={opt.label} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2">
+              <label className="text-xs theme-muted">Scenario</label>
+              <div className="w-48">
+                <SearchableSelect
+                  options={scenarioOptions}
+                  value={scenarioId}
+                  placeholder="All scenarios"
+                  onChange={(val) => {
+                    setScenarioId(val ?? '')
+                    setPage(1)
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-xs theme-muted">Label</label>
+              <div className="w-44">
+                <SearchableSelect
+                  options={labelOptions}
+                  value={labelId}
+                  placeholder="All labels"
+                  onChange={(val) => {
+                    setLabelId(val ?? '')
+                    setPage(1)
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -109,6 +133,16 @@ export function TestRunsPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+
+      <TestRunFormModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSaved={() => {
+          setShowModal(false)
+          refetch()
+        }}
+      />
+    </>
   )
 }

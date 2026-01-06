@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **hostname** | **string** | Hostname of the PC | [optional] [default to undefined]
 **ip_address** | **string** | IP address of the PC | [optional] [default to undefined]
 **domain_name** | **string** | FQDN of the PC | [optional] [default to undefined]
+**auth_token** | **string** | Token used to authenticate with the PC | [optional] [default to undefined]
+**workarea** | **string** | Logical work area name/location | [optional] [default to undefined]
 **status** | [**TestPCStatusEnum**](TestPCStatusEnum.md) | PC status  * &#x60;ONLINE&#x60; - Online * &#x60;OFFLINE&#x60; - Offline * &#x60;MAINTENANCE&#x60; - Maintenance * &#x60;INITIALIZING&#x60; - Initializing | [optional] [default to undefined]
 **os_version** | [**OsVersionEnum**](OsVersionEnum.md) | Operating system version  * &#x60;ubuntu_18_04&#x60; - Ubuntu 18.04 LTS * &#x60;ubuntu_20_04&#x60; - Ubuntu 20.04 LTS * &#x60;ubuntu_22_04&#x60; - Ubuntu 22.04 LTS * &#x60;ubuntu_24_04&#x60; - Ubuntu 24.04 LTS * &#x60;centos_7&#x60; - CentOS 7 * &#x60;centos_8&#x60; - CentOS 8 * &#x60;centos_9&#x60; - CentOS 9 * &#x60;windows_10&#x60; - Windows 10 * &#x60;windows_11&#x60; - Windows 11 * &#x60;macos_ventura&#x60; - macOS Ventura * &#x60;macos_sonoma&#x60; - macOS Sonoma | [optional] [default to undefined]
 **disk_mountpoint** | **string** | Primary disk mount point | [optional] [default to undefined]
@@ -30,6 +32,8 @@ const instance: PatchedTestPC = {
     hostname,
     ip_address,
     domain_name,
+    auth_token,
+    workarea,
     status,
     os_version,
     disk_mountpoint,

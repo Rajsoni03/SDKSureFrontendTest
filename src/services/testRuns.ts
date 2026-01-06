@@ -6,12 +6,14 @@ const testRunsApi = TestRunsApiFactory(apiConfiguration, undefined, apiClient)
 
 export const testRunsService = {
   list: (params?: {
-    status?: string
+    label?: number
+    name?: string
     ordering?: string
     page?: number
+    scenario?: number
     search?: string
-    board?: number
-    test_case?: number
   }) => testRunsApi.testRunsList(params ?? {}),
+  create: (payload: any) => testRunsApi.testRunsCreate({ testRun: payload as any }),
+  update: (id: number, payload: any) => testRunsApi.testRunsPartialUpdate({ id, patchedTestRun: payload as any }),
   retrieve: (id: number) => testRunsApi.testRunsRetrieve({ id }),
 }

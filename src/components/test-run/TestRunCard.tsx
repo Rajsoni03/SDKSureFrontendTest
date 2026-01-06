@@ -1,7 +1,5 @@
-import { Clock3, Cpu, PlayCircle } from 'lucide-react'
+import { Clock3, Tag, Workflow } from 'lucide-react'
 import type { TestRun } from '@/services/api/generated/models/test-run'
-import { TestRunStatusChip } from './TestRunStatusChip'
-import { cn } from '@/lib/utils'
 
 export function TestRunCard({ run }: { run: TestRun }) {
   return (
@@ -11,24 +9,48 @@ export function TestRunCard({ run }: { run: TestRun }) {
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs uppercase tracking-wide text-emerald-300">Test Run</p>
-            <h3 className="text-lg font-semibold theme-text">#{run.id}</h3>
-            <p className="text-xs theme-muted">Test case: {run.test_case}</p>
+            <h3 className="text-lg font-semibold theme-text">{run.name || `Run #${run.id}`}</h3>
+            {run.description && <p className="text-xs theme-muted">{run.description}</p>}
           </div>
-          <TestRunStatusChip status={run.status} />
+          <div className="text-right text-xs theme-muted">
+            <p>Created: {new Date(run.created_at).toLocaleString()}</p>
+            <p>Updated: {new Date(run.updated_at).toLocaleString()}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 text-xs">
+          {run.scenarios?.length ? (
+            run.scenarios.map((scenario) => (
+              <span
+                key={scenario.id}
+                className="inline-flex items-center gap-1 rounded-full border theme-border bg-black/5 px-2 py-1 theme-text"
+              >
+                <Workflow className="h-3 w-3 text-emerald-300" />
+                {scenario.name}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs theme-muted">No scenarios</span>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs theme-muted">
-          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
-            <Cpu className="h-3.5 w-3.5 text-emerald-300" />
-            Board {run.board}
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
-            <PlayCircle className="h-3.5 w-3.5 text-emerald-300" />
-            Started: {run.started_at ? new Date(run.started_at).toLocaleString() : '—'}
-          </span>
+          {run.labels?.length ? (
+            run.labels.map((label) => (
+              <span
+                key={label.id}
+                className="inline-flex items-center gap-1 rounded-full border theme-border bg-black/5 px-2 py-1 theme-text"
+              >
+                <Tag className="h-3 w-3 text-emerald-300" />
+                {label.name}
+              </span>
+            ))
+          ) : (
+            <span>No labels</span>
+          )}
           <span className="inline-flex items-center gap-1 rounded-lg border theme-border px-2 py-1">
             <Clock3 className="h-3.5 w-3.5 text-emerald-300" />
-            Finished: {run.finished_at ? new Date(run.finished_at).toLocaleString() : '—'}
+            Results: {run.results?.length ?? 0}
           </span>
         </div>
       </div>

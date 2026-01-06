@@ -1,37 +1,36 @@
-# TestRunsApi
+# TestScenariosApi
 
 All URIs are relative to *http://localhost:8000*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**testRunsCreate**](#testrunscreate) | **POST** /api/v1/test-runs/ | |
-|[**testRunsDestroy**](#testrunsdestroy) | **DELETE** /api/v1/test-runs/{id}/ | |
-|[**testRunsList**](#testrunslist) | **GET** /api/v1/test-runs/ | |
-|[**testRunsPartialUpdate**](#testrunspartialupdate) | **PATCH** /api/v1/test-runs/{id}/ | |
-|[**testRunsRetrieve**](#testrunsretrieve) | **GET** /api/v1/test-runs/{id}/ | |
-|[**testRunsUpdate**](#testrunsupdate) | **PUT** /api/v1/test-runs/{id}/ | |
+|[**testScenariosCreate**](#testscenarioscreate) | **POST** /api/v1/test-scenarios/ | |
+|[**testScenariosDestroy**](#testscenariosdestroy) | **DELETE** /api/v1/test-scenarios/{id}/ | |
+|[**testScenariosList**](#testscenarioslist) | **GET** /api/v1/test-scenarios/ | |
+|[**testScenariosPartialUpdate**](#testscenariospartialupdate) | **PATCH** /api/v1/test-scenarios/{id}/ | |
+|[**testScenariosRetrieve**](#testscenariosretrieve) | **GET** /api/v1/test-scenarios/{id}/ | |
+|[**testScenariosUpdate**](#testscenariosupdate) | **PUT** /api/v1/test-scenarios/{id}/ | |
 
-# **testRunsCreate**
-> TestRun testRunsCreate(testRun)
+# **testScenariosCreate**
+> TestScenario testScenariosCreate(testScenario)
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration,
-    TestRun
+    TestScenario
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let testRun: TestRun; //
+let testScenario: TestScenario; //
 
-const { status, data } = await apiInstance.testRunsCreate(
-    testRun
+const { status, data } = await apiInstance.testScenariosCreate(
+    testScenario
 );
 ```
 
@@ -39,12 +38,12 @@ const { status, data } = await apiInstance.testRunsCreate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **testRun** | **TestRun**|  | |
+| **testScenario** | **TestScenario**|  | |
 
 
 ### Return type
 
-**TestRun**
+**TestScenario**
 
 ### Authorization
 
@@ -63,25 +62,24 @@ const { status, data } = await apiInstance.testRunsCreate(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testRunsDestroy**
-> testRunsDestroy()
+# **testScenariosDestroy**
+> testScenariosDestroy()
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let id: number; //A unique integer value identifying this test run. (default to undefined)
+let id: number; //A unique integer value identifying this test scenario. (default to undefined)
 
-const { status, data } = await apiInstance.testRunsDestroy(
+const { status, data } = await apiInstance.testScenariosDestroy(
     id
 );
 ```
@@ -90,7 +88,7 @@ const { status, data } = await apiInstance.testRunsDestroy(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] | A unique integer value identifying this test run. | defaults to undefined|
+| **id** | [**number**] | A unique integer value identifying this test scenario. | defaults to undefined|
 
 
 ### Return type
@@ -114,35 +112,28 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testRunsList**
-> PaginatedTestRunList testRunsList()
+# **testScenariosList**
+> PaginatedTestScenarioList testScenariosList()
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let label: number; // (optional) (default to undefined)
-let name: string; // (optional) (default to undefined)
 let ordering: string; //Which field to use when ordering the results. (optional) (default to undefined)
 let page: number; //A page number within the paginated result set. (optional) (default to undefined)
-let scenario: number; // (optional) (default to undefined)
 let search: string; //A search term. (optional) (default to undefined)
 
-const { status, data } = await apiInstance.testRunsList(
-    label,
-    name,
+const { status, data } = await apiInstance.testScenariosList(
     ordering,
     page,
-    scenario,
     search
 );
 ```
@@ -151,17 +142,14 @@ const { status, data } = await apiInstance.testRunsList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **label** | [**number**] |  | (optional) defaults to undefined|
-| **name** | [**string**] |  | (optional) defaults to undefined|
 | **ordering** | [**string**] | Which field to use when ordering the results. | (optional) defaults to undefined|
 | **page** | [**number**] | A page number within the paginated result set. | (optional) defaults to undefined|
-| **scenario** | [**number**] |  | (optional) defaults to undefined|
 | **search** | [**string**] | A search term. | (optional) defaults to undefined|
 
 
 ### Return type
 
-**PaginatedTestRunList**
+**PaginatedTestScenarioList**
 
 ### Authorization
 
@@ -180,29 +168,28 @@ const { status, data } = await apiInstance.testRunsList(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testRunsPartialUpdate**
-> TestRun testRunsPartialUpdate()
+# **testScenariosPartialUpdate**
+> TestScenario testScenariosPartialUpdate()
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration,
-    PatchedTestRun
+    PatchedTestScenario
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let id: number; //A unique integer value identifying this test run. (default to undefined)
-let patchedTestRun: PatchedTestRun; // (optional)
+let id: number; //A unique integer value identifying this test scenario. (default to undefined)
+let patchedTestScenario: PatchedTestScenario; // (optional)
 
-const { status, data } = await apiInstance.testRunsPartialUpdate(
+const { status, data } = await apiInstance.testScenariosPartialUpdate(
     id,
-    patchedTestRun
+    patchedTestScenario
 );
 ```
 
@@ -210,13 +197,13 @@ const { status, data } = await apiInstance.testRunsPartialUpdate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **patchedTestRun** | **PatchedTestRun**|  | |
-| **id** | [**number**] | A unique integer value identifying this test run. | defaults to undefined|
+| **patchedTestScenario** | **PatchedTestScenario**|  | |
+| **id** | [**number**] | A unique integer value identifying this test scenario. | defaults to undefined|
 
 
 ### Return type
 
-**TestRun**
+**TestScenario**
 
 ### Authorization
 
@@ -235,25 +222,24 @@ const { status, data } = await apiInstance.testRunsPartialUpdate(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testRunsRetrieve**
-> TestRun testRunsRetrieve()
+# **testScenariosRetrieve**
+> TestScenario testScenariosRetrieve()
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let id: number; //A unique integer value identifying this test run. (default to undefined)
+let id: number; //A unique integer value identifying this test scenario. (default to undefined)
 
-const { status, data } = await apiInstance.testRunsRetrieve(
+const { status, data } = await apiInstance.testScenariosRetrieve(
     id
 );
 ```
@@ -262,12 +248,12 @@ const { status, data } = await apiInstance.testRunsRetrieve(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] | A unique integer value identifying this test run. | defaults to undefined|
+| **id** | [**number**] | A unique integer value identifying this test scenario. | defaults to undefined|
 
 
 ### Return type
 
-**TestRun**
+**TestScenario**
 
 ### Authorization
 
@@ -286,29 +272,28 @@ const { status, data } = await apiInstance.testRunsRetrieve(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testRunsUpdate**
-> TestRun testRunsUpdate(testRun)
+# **testScenariosUpdate**
+> TestScenario testScenariosUpdate(testScenario)
 
-Manage test run lifecycle.
 
 ### Example
 
 ```typescript
 import {
-    TestRunsApi,
+    TestScenariosApi,
     Configuration,
-    TestRun
+    TestScenario
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new TestRunsApi(configuration);
+const apiInstance = new TestScenariosApi(configuration);
 
-let id: number; //A unique integer value identifying this test run. (default to undefined)
-let testRun: TestRun; //
+let id: number; //A unique integer value identifying this test scenario. (default to undefined)
+let testScenario: TestScenario; //
 
-const { status, data } = await apiInstance.testRunsUpdate(
+const { status, data } = await apiInstance.testScenariosUpdate(
     id,
-    testRun
+    testScenario
 );
 ```
 
@@ -316,13 +301,13 @@ const { status, data } = await apiInstance.testRunsUpdate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **testRun** | **TestRun**|  | |
-| **id** | [**number**] | A unique integer value identifying this test run. | defaults to undefined|
+| **testScenario** | **TestScenario**|  | |
+| **id** | [**number**] | A unique integer value identifying this test scenario. | defaults to undefined|
 
 
 ### Return type
 
-**TestRun**
+**TestScenario**
 
 ### Authorization
 

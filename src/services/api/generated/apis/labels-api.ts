@@ -22,26 +22,26 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { PaginatedTestRunList } from '../models';
+import type { Label } from '../models';
 // @ts-ignore
-import type { PatchedTestRun } from '../models';
+import type { PaginatedLabelList } from '../models';
 // @ts-ignore
-import type { TestRun } from '../models';
+import type { PatchedLabel } from '../models';
 /**
- * TestRunsApi - axios parameter creator
+ * LabelsApi - axios parameter creator
  */
-export const TestRunsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const LabelsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRun} testRun 
+         * 
+         * @param {Label} label 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsCreate: async (testRun: TestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'testRun' is not null or undefined
-            assertParamExists('testRunsCreate', 'testRun', testRun)
-            const localVarPath = `/api/v1/test-runs/`;
+        labelsCreate: async (label: Label, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'label' is not null or undefined
+            assertParamExists('labelsCreate', 'label', label)
+            const localVarPath = `/api/v1/labels/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -65,7 +65,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(label, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -73,15 +73,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this label.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        labelsDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsDestroy', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('labelsDestroy', 'id', id)
+            const localVarPath = `/api/v1/labels/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -111,18 +111,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} [label] 
-         * @param {string} [name] 
+         * 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [scenario] 
          * @param {string} [search] A search term.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsList: async (label?: number, name?: string, ordering?: string, page?: number, scenario?: number, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/test-runs/`;
+        labelsList: async (ordering?: string, page?: number, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/labels/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -140,24 +137,12 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (label !== undefined) {
-                localVarQueryParameter['label'] = label;
-            }
-
-            if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
-            }
-
             if (ordering !== undefined) {
                 localVarQueryParameter['ordering'] = ordering;
             }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
-            }
-
-            if (scenario !== undefined) {
-                localVarQueryParameter['scenario'] = scenario;
             }
 
             if (search !== undefined) {
@@ -176,16 +161,16 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {PatchedTestRun} [patchedTestRun] 
+         * 
+         * @param {number} id A unique integer value identifying this label.
+         * @param {PatchedLabel} [patchedLabel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsPartialUpdate: async (id: number, patchedTestRun?: PatchedTestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        labelsPartialUpdate: async (id: number, patchedLabel?: PatchedLabel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsPartialUpdate', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('labelsPartialUpdate', 'id', id)
+            const localVarPath = `/api/v1/labels/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -210,7 +195,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(patchedTestRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(patchedLabel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -218,15 +203,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this label.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        labelsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsRetrieve', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('labelsRetrieve', 'id', id)
+            const localVarPath = `/api/v1/labels/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -257,18 +242,18 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {TestRun} testRun 
+         * 
+         * @param {number} id A unique integer value identifying this label.
+         * @param {Label} label 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsUpdate: async (id: number, testRun: TestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        labelsUpdate: async (id: number, label: Label, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsUpdate', 'id', id)
-            // verify required parameter 'testRun' is not null or undefined
-            assertParamExists('testRunsUpdate', 'testRun', testRun)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('labelsUpdate', 'id', id)
+            // verify required parameter 'label' is not null or undefined
+            assertParamExists('labelsUpdate', 'label', label)
+            const localVarPath = `/api/v1/labels/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -293,7 +278,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(label, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -304,181 +289,174 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * TestRunsApi - functional programming interface
+ * LabelsApi - functional programming interface
  */
-export const TestRunsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TestRunsApiAxiosParamCreator(configuration)
+export const LabelsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LabelsApiAxiosParamCreator(configuration)
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRun} testRun 
+         * 
+         * @param {Label} label 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsCreate(testRun: TestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsCreate(testRun, options);
+        async labelsCreate(label: Label, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Label>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsCreate(label, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsCreate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsCreate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this label.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsDestroy(id, options);
+        async labelsDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsDestroy(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsDestroy']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsDestroy']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} [label] 
-         * @param {string} [name] 
+         * 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [scenario] 
          * @param {string} [search] A search term.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsList(label?: number, name?: string, ordering?: string, page?: number, scenario?: number, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedTestRunList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsList(label, name, ordering, page, scenario, search, options);
+        async labelsList(ordering?: string, page?: number, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedLabelList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsList(ordering, page, search, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsList']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {PatchedTestRun} [patchedTestRun] 
+         * 
+         * @param {number} id A unique integer value identifying this label.
+         * @param {PatchedLabel} [patchedLabel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsPartialUpdate(id: number, patchedTestRun?: PatchedTestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsPartialUpdate(id, patchedTestRun, options);
+        async labelsPartialUpdate(id: number, patchedLabel?: PatchedLabel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Label>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsPartialUpdate(id, patchedLabel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsPartialUpdate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsPartialUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this label.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsRetrieve(id, options);
+        async labelsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Label>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsRetrieve(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsRetrieve']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsRetrieve']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {TestRun} testRun 
+         * 
+         * @param {number} id A unique integer value identifying this label.
+         * @param {Label} label 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsUpdate(id: number, testRun: TestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsUpdate(id, testRun, options);
+        async labelsUpdate(id: number, label: Label, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Label>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.labelsUpdate(id, label, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsUpdate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LabelsApi.labelsUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * TestRunsApi - factory interface
+ * LabelsApi - factory interface
  */
-export const TestRunsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TestRunsApiFp(configuration)
+export const LabelsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LabelsApiFp(configuration)
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsCreateRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsCreate(requestParameters: TestRunsApiTestRunsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsCreate(requestParameters.testRun, options).then((request) => request(axios, basePath));
+        labelsCreate(requestParameters: LabelsApiLabelsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Label> {
+            return localVarFp.labelsCreate(requestParameters.label, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsDestroyRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsDestroyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsDestroy(requestParameters: TestRunsApiTestRunsDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.testRunsDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
+        labelsDestroy(requestParameters: LabelsApiLabelsDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.labelsDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsListRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsListRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsList(requestParameters: TestRunsApiTestRunsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedTestRunList> {
-            return localVarFp.testRunsList(requestParameters.label, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.scenario, requestParameters.search, options).then((request) => request(axios, basePath));
+        labelsList(requestParameters: LabelsApiLabelsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedLabelList> {
+            return localVarFp.labelsList(requestParameters.ordering, requestParameters.page, requestParameters.search, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsPartialUpdateRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsPartialUpdateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsPartialUpdate(requestParameters: TestRunsApiTestRunsPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsPartialUpdate(requestParameters.id, requestParameters.patchedTestRun, options).then((request) => request(axios, basePath));
+        labelsPartialUpdate(requestParameters: LabelsApiLabelsPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Label> {
+            return localVarFp.labelsPartialUpdate(requestParameters.id, requestParameters.patchedLabel, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsRetrieveRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsRetrieveRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsRetrieve(requestParameters: TestRunsApiTestRunsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        labelsRetrieve(requestParameters: LabelsApiLabelsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Label> {
+            return localVarFp.labelsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsUpdateRequest} requestParameters Request parameters.
+         * 
+         * @param {LabelsApiLabelsUpdateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsUpdate(requestParameters: TestRunsApiTestRunsUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsUpdate(requestParameters.id, requestParameters.testRun, options).then((request) => request(axios, basePath));
+        labelsUpdate(requestParameters: LabelsApiLabelsUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Label> {
+            return localVarFp.labelsUpdate(requestParameters.id, requestParameters.label, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for testRunsCreate operation in TestRunsApi.
+ * Request parameters for labelsCreate operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsCreateRequest {
-    readonly testRun: TestRun
+export interface LabelsApiLabelsCreateRequest {
+    readonly label: Label
 }
 
 /**
- * Request parameters for testRunsDestroy operation in TestRunsApi.
+ * Request parameters for labelsDestroy operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsDestroyRequest {
+export interface LabelsApiLabelsDestroyRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this label.
      */
     readonly id: number
 }
 
 /**
- * Request parameters for testRunsList operation in TestRunsApi.
+ * Request parameters for labelsList operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsListRequest {
-    readonly label?: number
-
-    readonly name?: string
-
+export interface LabelsApiLabelsListRequest {
     /**
      * Which field to use when ordering the results.
      */
@@ -489,8 +467,6 @@ export interface TestRunsApiTestRunsListRequest {
      */
     readonly page?: number
 
-    readonly scenario?: number
-
     /**
      * A search term.
      */
@@ -498,101 +474,101 @@ export interface TestRunsApiTestRunsListRequest {
 }
 
 /**
- * Request parameters for testRunsPartialUpdate operation in TestRunsApi.
+ * Request parameters for labelsPartialUpdate operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsPartialUpdateRequest {
+export interface LabelsApiLabelsPartialUpdateRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this label.
      */
     readonly id: number
 
-    readonly patchedTestRun?: PatchedTestRun
+    readonly patchedLabel?: PatchedLabel
 }
 
 /**
- * Request parameters for testRunsRetrieve operation in TestRunsApi.
+ * Request parameters for labelsRetrieve operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsRetrieveRequest {
+export interface LabelsApiLabelsRetrieveRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this label.
      */
     readonly id: number
 }
 
 /**
- * Request parameters for testRunsUpdate operation in TestRunsApi.
+ * Request parameters for labelsUpdate operation in LabelsApi.
  */
-export interface TestRunsApiTestRunsUpdateRequest {
+export interface LabelsApiLabelsUpdateRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this label.
      */
     readonly id: number
 
-    readonly testRun: TestRun
+    readonly label: Label
 }
 
 /**
- * TestRunsApi - object-oriented interface
+ * LabelsApi - object-oriented interface
  */
-export class TestRunsApi extends BaseAPI {
+export class LabelsApi extends BaseAPI {
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsCreateRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsCreate(requestParameters: TestRunsApiTestRunsCreateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsCreate(requestParameters.testRun, options).then((request) => request(this.axios, this.basePath));
+    public labelsCreate(requestParameters: LabelsApiLabelsCreateRequest, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsCreate(requestParameters.label, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsDestroyRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsDestroy(requestParameters: TestRunsApiTestRunsDestroyRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public labelsDestroy(requestParameters: LabelsApiLabelsDestroyRequest, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsListRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsList(requestParameters: TestRunsApiTestRunsListRequest = {}, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsList(requestParameters.label, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.scenario, requestParameters.search, options).then((request) => request(this.axios, this.basePath));
+    public labelsList(requestParameters: LabelsApiLabelsListRequest = {}, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsList(requestParameters.ordering, requestParameters.page, requestParameters.search, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsPartialUpdateRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsPartialUpdate(requestParameters: TestRunsApiTestRunsPartialUpdateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsPartialUpdate(requestParameters.id, requestParameters.patchedTestRun, options).then((request) => request(this.axios, this.basePath));
+    public labelsPartialUpdate(requestParameters: LabelsApiLabelsPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsPartialUpdate(requestParameters.id, requestParameters.patchedLabel, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsRetrieveRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsRetrieve(requestParameters: TestRunsApiTestRunsRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public labelsRetrieve(requestParameters: LabelsApiLabelsRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsUpdateRequest} requestParameters Request parameters.
+     * 
+     * @param {LabelsApiLabelsUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsUpdate(requestParameters: TestRunsApiTestRunsUpdateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsUpdate(requestParameters.id, requestParameters.testRun, options).then((request) => request(this.axios, this.basePath));
+    public labelsUpdate(requestParameters: LabelsApiLabelsUpdateRequest, options?: RawAxiosRequestConfig) {
+        return LabelsApiFp(this.configuration).labelsUpdate(requestParameters.id, requestParameters.label, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

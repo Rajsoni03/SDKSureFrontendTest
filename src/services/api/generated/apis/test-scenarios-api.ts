@@ -22,26 +22,26 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { PaginatedTestRunList } from '../models';
+import type { PaginatedTestScenarioList } from '../models';
 // @ts-ignore
-import type { PatchedTestRun } from '../models';
+import type { PatchedTestScenario } from '../models';
 // @ts-ignore
-import type { TestRun } from '../models';
+import type { TestScenario } from '../models';
 /**
- * TestRunsApi - axios parameter creator
+ * TestScenariosApi - axios parameter creator
  */
-export const TestRunsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const TestScenariosApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRun} testRun 
+         * 
+         * @param {TestScenario} testScenario 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsCreate: async (testRun: TestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'testRun' is not null or undefined
-            assertParamExists('testRunsCreate', 'testRun', testRun)
-            const localVarPath = `/api/v1/test-runs/`;
+        testScenariosCreate: async (testScenario: TestScenario, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'testScenario' is not null or undefined
+            assertParamExists('testScenariosCreate', 'testScenario', testScenario)
+            const localVarPath = `/api/v1/test-scenarios/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -65,7 +65,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(testScenario, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -73,15 +73,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testScenariosDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsDestroy', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('testScenariosDestroy', 'id', id)
+            const localVarPath = `/api/v1/test-scenarios/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -111,18 +111,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} [label] 
-         * @param {string} [name] 
+         * 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [scenario] 
          * @param {string} [search] A search term.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsList: async (label?: number, name?: string, ordering?: string, page?: number, scenario?: number, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/test-runs/`;
+        testScenariosList: async (ordering?: string, page?: number, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/test-scenarios/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -140,24 +137,12 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (label !== undefined) {
-                localVarQueryParameter['label'] = label;
-            }
-
-            if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
-            }
-
             if (ordering !== undefined) {
                 localVarQueryParameter['ordering'] = ordering;
             }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
-            }
-
-            if (scenario !== undefined) {
-                localVarQueryParameter['scenario'] = scenario;
             }
 
             if (search !== undefined) {
@@ -176,16 +161,16 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {PatchedTestRun} [patchedTestRun] 
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
+         * @param {PatchedTestScenario} [patchedTestScenario] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsPartialUpdate: async (id: number, patchedTestRun?: PatchedTestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testScenariosPartialUpdate: async (id: number, patchedTestScenario?: PatchedTestScenario, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsPartialUpdate', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('testScenariosPartialUpdate', 'id', id)
+            const localVarPath = `/api/v1/test-scenarios/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -210,7 +195,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(patchedTestRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(patchedTestScenario, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -218,15 +203,15 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testScenariosRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsRetrieve', 'id', id)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('testScenariosRetrieve', 'id', id)
+            const localVarPath = `/api/v1/test-scenarios/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -257,18 +242,18 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {TestRun} testRun 
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
+         * @param {TestScenario} testScenario 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsUpdate: async (id: number, testRun: TestRun, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testScenariosUpdate: async (id: number, testScenario: TestScenario, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('testRunsUpdate', 'id', id)
-            // verify required parameter 'testRun' is not null or undefined
-            assertParamExists('testRunsUpdate', 'testRun', testRun)
-            const localVarPath = `/api/v1/test-runs/{id}/`
+            assertParamExists('testScenariosUpdate', 'id', id)
+            // verify required parameter 'testScenario' is not null or undefined
+            assertParamExists('testScenariosUpdate', 'testScenario', testScenario)
+            const localVarPath = `/api/v1/test-scenarios/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -293,7 +278,7 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(testRun, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(testScenario, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -304,181 +289,174 @@ export const TestRunsApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * TestRunsApi - functional programming interface
+ * TestScenariosApi - functional programming interface
  */
-export const TestRunsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TestRunsApiAxiosParamCreator(configuration)
+export const TestScenariosApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TestScenariosApiAxiosParamCreator(configuration)
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRun} testRun 
+         * 
+         * @param {TestScenario} testScenario 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsCreate(testRun: TestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsCreate(testRun, options);
+        async testScenariosCreate(testScenario: TestScenario, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestScenario>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosCreate(testScenario, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsCreate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosCreate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsDestroy(id, options);
+        async testScenariosDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosDestroy(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsDestroy']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosDestroy']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} [label] 
-         * @param {string} [name] 
+         * 
          * @param {string} [ordering] Which field to use when ordering the results.
          * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [scenario] 
          * @param {string} [search] A search term.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsList(label?: number, name?: string, ordering?: string, page?: number, scenario?: number, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedTestRunList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsList(label, name, ordering, page, scenario, search, options);
+        async testScenariosList(ordering?: string, page?: number, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedTestScenarioList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosList(ordering, page, search, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsList']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {PatchedTestRun} [patchedTestRun] 
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
+         * @param {PatchedTestScenario} [patchedTestScenario] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsPartialUpdate(id: number, patchedTestRun?: PatchedTestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsPartialUpdate(id, patchedTestRun, options);
+        async testScenariosPartialUpdate(id: number, patchedTestScenario?: PatchedTestScenario, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestScenario>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosPartialUpdate(id, patchedTestScenario, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsPartialUpdate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosPartialUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsRetrieve(id, options);
+        async testScenariosRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestScenario>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosRetrieve(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsRetrieve']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosRetrieve']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Manage test run lifecycle.
-         * @param {number} id A unique integer value identifying this test run.
-         * @param {TestRun} testRun 
+         * 
+         * @param {number} id A unique integer value identifying this test scenario.
+         * @param {TestScenario} testScenario 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testRunsUpdate(id: number, testRun: TestRun, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestRun>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testRunsUpdate(id, testRun, options);
+        async testScenariosUpdate(id: number, testScenario: TestScenario, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestScenario>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testScenariosUpdate(id, testScenario, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TestRunsApi.testRunsUpdate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TestScenariosApi.testScenariosUpdate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * TestRunsApi - factory interface
+ * TestScenariosApi - factory interface
  */
-export const TestRunsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TestRunsApiFp(configuration)
+export const TestScenariosApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TestScenariosApiFp(configuration)
     return {
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsCreateRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsCreate(requestParameters: TestRunsApiTestRunsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsCreate(requestParameters.testRun, options).then((request) => request(axios, basePath));
+        testScenariosCreate(requestParameters: TestScenariosApiTestScenariosCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestScenario> {
+            return localVarFp.testScenariosCreate(requestParameters.testScenario, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsDestroyRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosDestroyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsDestroy(requestParameters: TestRunsApiTestRunsDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.testRunsDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
+        testScenariosDestroy(requestParameters: TestScenariosApiTestScenariosDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.testScenariosDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsListRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosListRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsList(requestParameters: TestRunsApiTestRunsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedTestRunList> {
-            return localVarFp.testRunsList(requestParameters.label, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.scenario, requestParameters.search, options).then((request) => request(axios, basePath));
+        testScenariosList(requestParameters: TestScenariosApiTestScenariosListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedTestScenarioList> {
+            return localVarFp.testScenariosList(requestParameters.ordering, requestParameters.page, requestParameters.search, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsPartialUpdateRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosPartialUpdateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsPartialUpdate(requestParameters: TestRunsApiTestRunsPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsPartialUpdate(requestParameters.id, requestParameters.patchedTestRun, options).then((request) => request(axios, basePath));
+        testScenariosPartialUpdate(requestParameters: TestScenariosApiTestScenariosPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestScenario> {
+            return localVarFp.testScenariosPartialUpdate(requestParameters.id, requestParameters.patchedTestScenario, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsRetrieveRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosRetrieveRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsRetrieve(requestParameters: TestRunsApiTestRunsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        testScenariosRetrieve(requestParameters: TestScenariosApiTestScenariosRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestScenario> {
+            return localVarFp.testScenariosRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
-         * Manage test run lifecycle.
-         * @param {TestRunsApiTestRunsUpdateRequest} requestParameters Request parameters.
+         * 
+         * @param {TestScenariosApiTestScenariosUpdateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testRunsUpdate(requestParameters: TestRunsApiTestRunsUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestRun> {
-            return localVarFp.testRunsUpdate(requestParameters.id, requestParameters.testRun, options).then((request) => request(axios, basePath));
+        testScenariosUpdate(requestParameters: TestScenariosApiTestScenariosUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<TestScenario> {
+            return localVarFp.testScenariosUpdate(requestParameters.id, requestParameters.testScenario, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for testRunsCreate operation in TestRunsApi.
+ * Request parameters for testScenariosCreate operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsCreateRequest {
-    readonly testRun: TestRun
+export interface TestScenariosApiTestScenariosCreateRequest {
+    readonly testScenario: TestScenario
 }
 
 /**
- * Request parameters for testRunsDestroy operation in TestRunsApi.
+ * Request parameters for testScenariosDestroy operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsDestroyRequest {
+export interface TestScenariosApiTestScenariosDestroyRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this test scenario.
      */
     readonly id: number
 }
 
 /**
- * Request parameters for testRunsList operation in TestRunsApi.
+ * Request parameters for testScenariosList operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsListRequest {
-    readonly label?: number
-
-    readonly name?: string
-
+export interface TestScenariosApiTestScenariosListRequest {
     /**
      * Which field to use when ordering the results.
      */
@@ -489,8 +467,6 @@ export interface TestRunsApiTestRunsListRequest {
      */
     readonly page?: number
 
-    readonly scenario?: number
-
     /**
      * A search term.
      */
@@ -498,101 +474,101 @@ export interface TestRunsApiTestRunsListRequest {
 }
 
 /**
- * Request parameters for testRunsPartialUpdate operation in TestRunsApi.
+ * Request parameters for testScenariosPartialUpdate operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsPartialUpdateRequest {
+export interface TestScenariosApiTestScenariosPartialUpdateRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this test scenario.
      */
     readonly id: number
 
-    readonly patchedTestRun?: PatchedTestRun
+    readonly patchedTestScenario?: PatchedTestScenario
 }
 
 /**
- * Request parameters for testRunsRetrieve operation in TestRunsApi.
+ * Request parameters for testScenariosRetrieve operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsRetrieveRequest {
+export interface TestScenariosApiTestScenariosRetrieveRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this test scenario.
      */
     readonly id: number
 }
 
 /**
- * Request parameters for testRunsUpdate operation in TestRunsApi.
+ * Request parameters for testScenariosUpdate operation in TestScenariosApi.
  */
-export interface TestRunsApiTestRunsUpdateRequest {
+export interface TestScenariosApiTestScenariosUpdateRequest {
     /**
-     * A unique integer value identifying this test run.
+     * A unique integer value identifying this test scenario.
      */
     readonly id: number
 
-    readonly testRun: TestRun
+    readonly testScenario: TestScenario
 }
 
 /**
- * TestRunsApi - object-oriented interface
+ * TestScenariosApi - object-oriented interface
  */
-export class TestRunsApi extends BaseAPI {
+export class TestScenariosApi extends BaseAPI {
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsCreateRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsCreate(requestParameters: TestRunsApiTestRunsCreateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsCreate(requestParameters.testRun, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosCreate(requestParameters: TestScenariosApiTestScenariosCreateRequest, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosCreate(requestParameters.testScenario, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsDestroyRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsDestroy(requestParameters: TestRunsApiTestRunsDestroyRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosDestroy(requestParameters: TestScenariosApiTestScenariosDestroyRequest, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsListRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsList(requestParameters: TestRunsApiTestRunsListRequest = {}, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsList(requestParameters.label, requestParameters.name, requestParameters.ordering, requestParameters.page, requestParameters.scenario, requestParameters.search, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosList(requestParameters: TestScenariosApiTestScenariosListRequest = {}, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosList(requestParameters.ordering, requestParameters.page, requestParameters.search, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsPartialUpdateRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsPartialUpdate(requestParameters: TestRunsApiTestRunsPartialUpdateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsPartialUpdate(requestParameters.id, requestParameters.patchedTestRun, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosPartialUpdate(requestParameters: TestScenariosApiTestScenariosPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosPartialUpdate(requestParameters.id, requestParameters.patchedTestScenario, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsRetrieveRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsRetrieve(requestParameters: TestRunsApiTestRunsRetrieveRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosRetrieve(requestParameters: TestScenariosApiTestScenariosRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Manage test run lifecycle.
-     * @param {TestRunsApiTestRunsUpdateRequest} requestParameters Request parameters.
+     * 
+     * @param {TestScenariosApiTestScenariosUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testRunsUpdate(requestParameters: TestRunsApiTestRunsUpdateRequest, options?: RawAxiosRequestConfig) {
-        return TestRunsApiFp(this.configuration).testRunsUpdate(requestParameters.id, requestParameters.testRun, options).then((request) => request(this.axios, this.basePath));
+    public testScenariosUpdate(requestParameters: TestScenariosApiTestScenariosUpdateRequest, options?: RawAxiosRequestConfig) {
+        return TestScenariosApiFp(this.configuration).testScenariosUpdate(requestParameters.id, requestParameters.testScenario, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
-
-import { useLabels } from '@/hooks/useLabels'
-import { LabelFormModal } from './TagFormModal'
-import { Button } from '../ui/button'
+import { useTestScenarios } from '@/hooks/useTestScenarios'
+import { TestScenarioCard } from './TestScenarioCard'
 import { apiCall } from '@/lib/apiHandler'
+import { Button } from '../ui/button'
+import { TestScenarioFormModal } from './TestScenarioFormModal'
 
-export function LabelsPage() {
+export function TestScenariosPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [showModal, setShowModal] = useState(false)
-  const [editingLabel, setEditingLabel] = useState<any | null>(null)
+  const [editingScenario, setEditingScenario] = useState<any | null>(null)
 
   const filters = useMemo(
     () => ({
@@ -21,33 +21,31 @@ export function LabelsPage() {
     [search, page],
   )
 
-  const { data, isLoading, isError, refetch } = useLabels(filters)
-  const labels = data?.results ?? []
-
-  const openCreate = () => {
-    setEditingLabel(null)
-    setShowModal(true)
-  }
-
-  const openEdit = (label: any) => {
-    setEditingLabel(label)
-    setShowModal(true)
-  }
+  const { data, isLoading, isError, refetch, isFetching } = useTestScenarios(filters)
+  const scenarios = data?.results ?? []
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-wide text-emerald-300">Metadata</p>
-          <h2 className="text-2xl font-semibold theme-text">Labels</h2>
+          <p className="text-sm uppercase tracking-wide text-emerald-300">Execution</p>
+          <h2 className="text-2xl font-semibold theme-text">Test Scenarios</h2>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Button onClick={openCreate}>Add Label</Button>
+          <Button
+            onClick={() => {
+              setEditingScenario(null)
+              setShowModal(true)
+            }}
+          >
+            Add Scenario
+          </Button>
           <Button
             variant="secondary"
-            onClick={() => apiCall(() => refetch(), { errorMessage: 'Failed to refresh labels' })}
+            onClick={() => apiCall(() => refetch(), { errorMessage: 'Failed to refresh scenarios' })}
+            disabled={isFetching}
           >
-            Refresh
+            {isFetching ? 'Refreshing...' : 'Refresh'}
           </Button>
         </div>
       </div>
@@ -57,7 +55,7 @@ export function LabelsPage() {
           <div className="flex flex-1 items-center gap-2 rounded-lg border theme-border bg-[var(--panel)] px-3 py-2">
             <Search className="h-4 w-4 text-slate-400" />
             <input
-              placeholder="Search labels"
+              placeholder="Search scenarios"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value)
@@ -70,40 +68,41 @@ export function LabelsPage() {
 
         {isError && (
           <div className="rounded-lg border theme-border bg-red-500/10 p-3 text-sm text-red-100">
-            Failed to load labels.
+            Failed to load scenarios.
           </div>
         )}
 
         {isLoading ? (
-          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {[...Array(8)].map((_, idx) => (
-              <div key={idx} className="h-24 animate-pulse rounded-xl border theme-border bg-panel-soft" />
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {[...Array(6)].map((_, idx) => (
+              <div key={idx} className="h-40 animate-pulse rounded-2xl border theme-border bg-panel-soft" />
             ))}
           </div>
-        ) : labels.length === 0 ? (
+        ) : scenarios.length === 0 ? (
           <div className="rounded-xl border theme-border bg-panel-soft p-4 text-sm theme-muted">
-            No labels found.
+            No scenarios found.
           </div>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {labels.map((label) => (
-              <button
-                key={label.id}
-                onClick={() => openEdit(label)}
-                className="rounded-xl border theme-border bg-panel-soft px-4 py-3 text-left text-sm font-semibold theme-text transition hover:border-emerald-400/50 hover:-translate-y-0.5"
-              >
-                {label.name}
-              </button>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {scenarios.map((scenario) => (
+              <TestScenarioCard
+                key={scenario.id}
+                scenario={scenario}
+                onEdit={(sc) => {
+                  setEditingScenario(sc)
+                  setShowModal(true)
+                }}
+              />
             ))}
           </div>
         )}
       </div>
 
-      <LabelFormModal
+      <TestScenarioFormModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSaved={() => refetch()}
-        editingLabel={editingLabel}
+        editingScenario={editingScenario}
       />
     </div>
   )

@@ -35,6 +35,14 @@ export interface TestPC {
      */
     'domain_name'?: string;
     /**
+     * Token used to authenticate with the PC
+     */
+    'auth_token'?: string;
+    /**
+     * Logical work area name/location
+     */
+    'workarea'?: string;
+    /**
      * PC status  * `ONLINE` - Online * `OFFLINE` - Offline * `MAINTENANCE` - Maintenance * `INITIALIZING` - Initializing
      */
     'status'?: TestPCStatusEnum;

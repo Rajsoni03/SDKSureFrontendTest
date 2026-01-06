@@ -31,7 +31,7 @@ export function TestCaseCard({ testCase }: { testCase: TestCase }) {
             ))}
           </div>
         ) : (
-          <p className="text-xs theme-muted">No tags</p>
+          <p className="text-xs theme-muted">No labels</p>
         )}
 
         <div className="flex items-center justify-between text-xs theme-muted">

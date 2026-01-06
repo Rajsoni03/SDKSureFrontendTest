@@ -18,16 +18,18 @@
 import type { Label } from './label';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { TestType } from './test-type';
+import type { TestCaseSummary } from './test-case-summary';
 
-export interface PatchedTestCase {
+export interface PatchedTestScenario {
     'id'?: number;
-    'title'?: string;
+    'name'?: string;
     'description'?: string;
-    'test_type'?: TestType;
-    'tags'?: Array<Label>;
-    'is_active'?: boolean;
+    'test_cases'?: Array<TestCaseSummary>;
+    'test_case_ids'?: Array<number>;
+    'labels'?: Array<Label>;
+    'label_ids'?: Array<number>;
     'created_by'?: number | null;
+    'updated_by'?: number | null;
     'created_at'?: string;
     'updated_at'?: string;
 }

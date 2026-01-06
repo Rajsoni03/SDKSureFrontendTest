@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **title** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **test_type** | [**TestType**](TestType.md) |  | [optional] [readonly] [default to undefined]
-**tags** | [**Array&lt;Tag&gt;**](Tag.md) |  | [optional] [readonly] [default to undefined]
+**tags** | [**Array&lt;Label&gt;**](Label.md) |  | [optional] [readonly] [default to undefined]
 **is_active** | **boolean** |  | [optional] [default to undefined]
 **created_by** | **number** |  | [optional] [default to undefined]
 **created_at** | **string** |  | [optional] [readonly] [default to undefined]
