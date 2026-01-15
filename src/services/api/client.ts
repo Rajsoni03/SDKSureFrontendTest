@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
+import config from '../../../config.json'
 
 const rawApiUrl =
-  import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? 'http://localhost:8000/api/v1'
+  config.VITE_API_URL?.replace(/\/$/, '') ?? 'http://localhost:8000/api/v1'
 const apiHost = rawApiUrl.replace(/\/api\/v1\/?$/i, '')
 
 export const apiClient = axios.create({
   baseURL: apiHost,
-  timeout: Number(import.meta.env.VITE_API_TIMEOUT ?? 30000),
+  timeout: Number(config.VITE_API_TIMEOUT ?? 30000),
 })
 
 apiClient.interceptors.response.use(

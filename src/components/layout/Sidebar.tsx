@@ -13,6 +13,7 @@ import {
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import config from '../../../config.json'
 
 const navItems = [
   { label: 'Dashboard', icon: Home, href: '/' },
@@ -90,7 +91,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           <div>
             <p className="font-semibold">Environment</p>
             <p className="text-xs theme-muted">
-              {import.meta.env.VITE_APP_NAME ?? 'Test Management'}
+              {config.VITE_APP_NAME ?? 'Test Management'}
             </p>
           </div>
         </div>
